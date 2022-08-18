@@ -1,8 +1,6 @@
 ## What 
 Vanilla threejs without any extension
-
----
-### Elements
+## Elements
 #### Scene
 Container to place objects, models, particles, light etc. Three.js will render the scene.
 [source](https://threejs.org/docs/index.html#api/en/scenes/Scene)
