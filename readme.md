@@ -1,2 +1,3 @@
-## What 
-Threejs Journey - Code along
+# Three.js Journey
+
+## What
