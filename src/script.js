@@ -36,7 +36,7 @@ scene.add(mesh)
 
 // Camera
 const aspectRatio = sizes.width / sizes.height
-const camera = new THREE.PerspectiveCamera(140, aspectRatio, 0.1, 100)
+const camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 100)
 // const camera = new THREE.OrthographicCamera(-1 * aspectRatio, 1 * aspectRatio, 1, -1, 0.1, 100)
 // camera.position.x = 2
 // camera.position.y = 2
@@ -56,19 +56,22 @@ const clock = new THREE.Clock()
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
-  // Update objects
+  /// Update objects
   //   mesh.rotation.y = elapsedTime
 
-  // Update camera
-  camera.position.x = cursor.x * 5
+  /// Update camera
+  // PI * 2 = 1 circle, sin = L/R, * 3 = more impact
+  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3
+  // PI * 2 = 1 circle, cos = T/B, * 3 = more impact
+  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3
   camera.position.y = cursor.y * 5
   // cube is always centered
   camera.lookAt(mesh.position)
 
-  // Render
+  /// Render
   renderer.render(scene, camera)
 
-  // Call tick again on the next frame
+  /// Call tick again on the next frame
   window.requestAnimationFrame(tick)
 }
 
