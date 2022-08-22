@@ -40,7 +40,13 @@ const tick = () => {
   const elapsedTime = clock.getElapsedTime()
 
   /// Update objects
-  mesh.rotation.y = elapsedTime
+  //   mesh.rotation.y = elapsedTime
+  // 1 rotation per second
+  // mesh.rotation.y = elapsedTime * Math.PI * 2
+  // circle
+  mesh.position.y = Math.sin(elapsedTime) // naik turun
+  mesh.position.x = Math.cos(elapsedTime) // kiri kanan
+
   /// Render
   renderer.render(scene, camera)
 
