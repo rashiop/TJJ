@@ -32,7 +32,8 @@ loadingManager.onError = () => {}
 // colorTexture.center.x = 0.5
 // colorTexture.center.y = 0.5
 
-// colorTexture.minFilter = THREE.NearestFilter
+colorTexture.minFilter = THREE.NearestFilter
+colorTexture.generateMipmaps = false
 colorTexture.magFilter = THREE.NearestFilter
 /**
  * Base

@@ -126,6 +126,11 @@ When we are using another geometry, image can be stretched etc.
   - GPU will choose most appropriate ver of texture
   - automatic!
   WHY BLURRED - gpu use a smaller version of pixel on the edge
+  CONS?
+  - size
+    - mipmapping produce the 1/2size ver repeatedly until 1x1
+    - The w&h will be power of 2
+    - if 512 x 512 => 512/2/2/2/.../2 = 1 (until 1)
 
 
   **Minification filter** occurs on __
@@ -141,6 +146,11 @@ When we are using another geometry, image can be stretched etc.
     ```js
     colorTexture.minFilter = THREE.NearestFilter
     ```
+  - If we are using `THREE.NearestFilter` on `minFilter` we dont need mipmaps.
+    Deactive it 
+    ```js
+      colorTexture.generateMipmaps = false
+    ```
 
   **Magnification filter** occurs on
   - pixels of texture > pixels on render
@@ -149,9 +159,21 @@ When we are using another geometry, image can be stretched etc.
     ```js
     colorTexture.magFilter = THREE.NearestFilter
     ```
-## Texture format & optimisation
-- size
+### 7. Texture format & optimisation
+Three (3) crucial elements when preparing the texture
+- weight - User will download the textures
+  - choose the right type of file:
+    - .jpg - lossy compression but lighter, no transparency
+    - .png - lossless compression but heavier
+  - compressor website/sw - tinypng
+- size (or the resolution)
+  - each px of the textures will be stored on GPU regardless the weight
+  - GPU has max storage
+  - mipmapping worsen it - increase pixel number to store
+  - pls reduce the size
 - data
+  - red (image) green (shadow) blue (border) alpha separately instead of use 3 image
+  - quite difficult to find combination texture format & resolution
 
 ## Extra: Where to find the textures
 - [poliiigon.com](http://poliigon.com/)
