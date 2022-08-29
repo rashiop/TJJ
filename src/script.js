@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
  */
 const loadingManager = new THREE.LoadingManager()
 const textureLoader = new THREE.TextureLoader(loadingManager)
-const colorTexture = textureLoader.load('textures/door/color.jpg')
+const colorTexture = textureLoader.load('textures/minecraft.png')
 const alphaTexture = textureLoader.load('textures/door/alpha.jpg')
 const heightTexture = textureLoader.load('textures/door/height.jpg')
 const metalnessTexture = textureLoader.load('textures/door/metalness.jpg')
@@ -27,11 +27,13 @@ loadingManager.onError = () => {}
 
 // colorTexture.offset.x = 0.2
 
-colorTexture.rotation = Math.PI / 4
-// we want the rotation starts on center instead of bottom left
-colorTexture.center.x = 0.5
-colorTexture.center.y = 0.5
+// colorTexture.rotation = Math.PI / 4
+// // we want the rotation starts on center instead of bottom left
+// colorTexture.center.x = 0.5
+// colorTexture.center.y = 0.5
 
+// colorTexture.minFilter = THREE.NearestFilter
+colorTexture.magFilter = THREE.NearestFilter
 /**
  * Base
  */

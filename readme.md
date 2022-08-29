@@ -116,9 +116,39 @@ When we are using another geometry, image can be stretched etc.
     colorTexture.center.x = 0.5
     colorTexture.center.y = 0.5
     ```
-## Filtering and Mipmapping
-- minification filter
-- magnification filter
+### 6. Filtering and Mipmapping
+
+  If you look at the cube's top face while this face is almost hidden, we'll see a blurry texture due to filtering & mipmapping
+  What is mipmap?
+  - creating half a smaller version of a texture again & again
+  - until get a 1x1 texture
+  - all the texture variations sent to the GPU
+  - GPU will choose most appropriate ver of texture
+  - automatic!
+  WHY BLURRED - gpu use a smaller version of pixel on the edge
+
+
+  **Minification filter** occurs on __
+  - pixels of texture < pixels of the render
+  - texture too big for surface, it covers
+  - change it shows using the `minFilter`
+      - `THREE.NearestFilter` - cheaper than others and quite sharp
+      - THREE.LinearFilter
+      - THREE.NearestMipmapNearestFilter
+      - THREE.NearestMipmapLinearFilter
+      - THREE.LinearMipmapNearestFilter
+      - [default] `THREE.LinearMipmapLinearFilter`
+    ```js
+    colorTexture.minFilter = THREE.NearestFilter
+    ```
+
+  **Magnification filter** occurs on
+  - pixels of texture > pixels on render
+  - texture is too small for surface
+  - blurry on zoom :(
+    ```js
+    colorTexture.magFilter = THREE.NearestFilter
+    ```
 ## Texture format & optimisation
 - size
 - data
