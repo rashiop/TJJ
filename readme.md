@@ -45,7 +45,26 @@ window.addEventListener('resize', () => {
 
   // update the renderer, update the canvas size
   renderer.setSize(sizes.width, sizes.height)
+
+  // update pixel ratio
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
 })
 ```
 ## Handle Pixel Ratio
+We might see blurry render & stair effect on the edges due to pixel ratio on computer > 1. **Pixel ratio** shows `how many pixels we have on screen for 1 pixel unit` on software parts.
+
+As the time goes, manufacturer increase the pixel ratio.
+2 => split 1 pixel 2 times (4)
+3 => split 1 pixel 3 times (9)
+Highest fixel ratio is mobile (5)
+
+check it
+```js
+window.devicePixelRatio
+```
+
+```js
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+```
 ## Handle Fullscreen
