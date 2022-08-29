@@ -31,3 +31,26 @@ All geometries are inherited from `BufferGeometry`, [sources](https://threejs.or
 22. WireframeG
 
 ## Your custom geometries
+How to store buffer geometry data?
+1. Using Float32Array
+  - typed array
+  - only float
+  - fixed len
+  - easier to handle for computer
+```js
+const positionsArray = new Float32Array([
+    // x, y, z
+    0, 0, 0,
+    0, 1, 0,
+    1, 0, 0
+])
+```
+2. Convert to BufferAttribute
+```js
+const positionsAttribute = new THREE.BufferAttribute(positionArray, 3)
+```
+3. Create a BufferGeometry using positionsAttribute
+```js
+const geometry = new THREE.BufferGeometry()
+geometry.setAttribute('position', positionsAttribute)
+```
