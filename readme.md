@@ -33,6 +33,25 @@ Famous texture by [Joao Paulo](https://3dtextures.me/2019/04/16/door-wood-001/):
 ### 0. Getting the image URL
 1. [ALT] put it on static folder
 2. Use native JS
+Image need to be convert to texture to be used, needsUpdate told texture to rerender
+```js
+  /**
+   * Textures
+  */
+  const image = new Image()
+  const texture = new THREE.Texture(image)
+
+  image.onload = () => {
+    texture.needsUpdate = true
+  }
+  image.src = '/textures/door/color.jpg'
+```
+
+Apply it to material
+```js
+const material = new THREE.MeshBasicMaterial({ map: texture })
+
+```
 ### 2. Use TextureLoader
 ### 3. Use LoadingManager
 ### 4. UV unwrapping
