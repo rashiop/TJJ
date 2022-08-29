@@ -9,6 +9,7 @@ Threejs Journey - Code along
 5. [camera](https://github.com/rashiop/TJJ_chapter_1/tree/05_camera) - typeof camera and controls
 6. [fullscreen](https://github.com/rashiop/TJJ_chapter_1/tree/06_fullscreen) - handle resize, fullscreen, pixel ratio (handle stair render)
 7. [geometrics](https://github.com/rashiop/TJJ_chapter_1/tree/07_geometries) - built-in geo & custom geo
+8. [debug ui](https://github.com/rashiop/TJJ_chapter_1/tree/08_debug-ui) - add tweaks as you go for faster development
 
 ### Classic Techniques
 ### Advance Tech
