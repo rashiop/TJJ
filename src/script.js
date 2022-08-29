@@ -20,6 +20,18 @@ loadingManager.onLoad = () => {}
 loadingManager.onProgress = () => {}
 loadingManager.onError = () => {}
 
+// colorTexture.repeat.x = 2
+// colorTexture.repeat.y = 2
+// colorTexture.wrapS = THREE.MirroredRepeatWrapping
+// colorTexture.wrapT = THREE.RepeatWrapping
+
+// colorTexture.offset.x = 0.2
+
+colorTexture.rotation = Math.PI / 4
+// we want the rotation starts on center instead of bottom left
+colorTexture.center.x = 0.5
+colorTexture.center.y = 0.5
+
 /**
  * Base
  */
