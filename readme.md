@@ -54,3 +54,21 @@ const positionsAttribute = new THREE.BufferAttribute(positionArray, 3)
 const geometry = new THREE.BufferGeometry()
 geometry.setAttribute('position', positionsAttribute)
 ```
+
+#### Example
+Create a bunch of random triangle
+
+```js
+const geometry = new THREE.BufferGeometry()
+
+// each triangle 3 vertices
+// each vertices 3 values x,y,z
+const count = 50
+const positionsArray = new Float32Array(count * 3 * 3)
+for (let i = 0; i < count*3*3; i++) {
+  positionsArray[i] = (Math.random() - 0.5) * 4
+}
+
+const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3)
+geometry.setAttribute('position', positionsAttribute)
+```
