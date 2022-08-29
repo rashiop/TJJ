@@ -68,3 +68,17 @@ window.devicePixelRatio
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 ```
 ## Handle Fullscreen
+```js
+window.addEventListener('dblclick', () => {
+  const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
+  if (!fullscreenElement) {
+    // go fullscreen
+    if (canvas.requestFullscreen) canvas.requestFullscreen()
+    else if (canvas.webkitRequestFullscreen) canvas.webkitRequestFullscreen()
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen()
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen()
+  }
+})
+```
+Not working on safari, so we need a tweak
