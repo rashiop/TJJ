@@ -27,5 +27,25 @@ html, body {
 }
 ```
 ## Handle Resize
+There is no autoresize, we need to be aware there is a resize event.
+Steps:
+1. listen to the window size change
+2. update the camera size
+3. update the renderer aka canvas size
+```js
+window.addEventListener('resize', () => {
+  // update the sizes -> wont show result
+  sizes.height = window.innerHeight
+  sizes.width = window.innerWidth
+
+
+  // update the camera -> cube is being stretched because the camera aspect updated, but canvas size still the same
+  camera.aspect = sizes.width / sizes.height
+  camera.updateProjectionMatrix()
+
+  // update the renderer, update the canvas size
+  renderer.setSize(sizes.width, sizes.height)
+})
+```
 ## Handle Pixel Ratio
 ## Handle Fullscreen
