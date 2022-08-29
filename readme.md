@@ -30,7 +30,7 @@ Famous texture by [Joao Paulo](https://3dtextures.me/2019/04/16/door-wood-001/):
     - [source1](https://marmoset.co/posts/basic-theory-of-physically-based-rendering/), [source2](https://marmoset.co/posts/physically-based-rendering-and-you-can-too/)
 
 ## Load a Textures
-### 0. Getting the image URL
+### 0. Getting the image URL using JS
 1. [ALT] put it on static folder
 2. Use native JS
 Image need to be convert to texture to be used, needsUpdate told texture to rerender
@@ -47,13 +47,43 @@ Image need to be convert to texture to be used, needsUpdate told texture to rere
   image.src = '/textures/door/color.jpg'
 ```
 
-Apply it to material
+Apply it to material.
+Because WebGL needs a specific format that can be accessed by GPU
+
+
 ```js
 const material = new THREE.MeshBasicMaterial({ map: texture })
-
 ```
 ### 2. Use TextureLoader
+More straightforward than native js
+```js
+// 1 textureLoader is multiple use
+const textureLoader = new THREE.TextureLoader()
+const texture = textureLoader.load(
+  'textures/door/color.jpg',
+  load // aka success,
+  onProgress,
+  onError
+)
+```
 ### 3. Use LoadingManager
+To track loading, error, start, progress cleaner
+```js
+const loadingManager = new THREE.LoadingManager()
+const textureLoader = new THREE.TextureLoader(loadingManager)
+const colorTexture = textureLoader.load('textures/door/color.jpg')
+const alphaTexture = textureLoader.load('textures/door/alpha.jpg')
+const heightTexture = textureLoader.load('textures/door/height.jpg')
+const metalnessTexture = textureLoader.load('textures/door/metalness.jpg')
+const normalTexture = textureLoader.load('textures/door/normal.jpg')
+const roughnessTexture = textureLoader.load('textures/door/roughness.jpg')
+const ambientOcclusionTexture = textureLoader.load('textures/door/ambientOcclusion.jpg')
+
+loadingManager.onStart = () => {}
+loadingManager.onLoad = () => {}
+loadingManager.onProgress = () => {}
+loadingManager.onError = () => {}
+```
 ### 4. UV unwrapping
 ### 5. Transforming the texture
 - repeat
