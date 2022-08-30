@@ -111,6 +111,12 @@ Need light to be seen
   - add  `gradientMap` to add coloration 
     - if `gradientMap` remove the cartoon effect, it could caused by [mipmapping](https://github.com/rashiop/TJJ_chapter_1/tree/09_texture#6-filtering-and-mipmapping)
     - solution: add filter `minFilter` or and `magFilter` to gradientTexture
+- [MeshStandardM](https://threejs.org/docs/index.html?q=material#api/en/materials/MeshStandardMaterial)
+  - [PBR](https://github.com/rashiop/TJJ_chapter_1/blob/09_texture/readme.md#texture) based material
+  - like MLambert & MPhong
+    - supports lights
+    - more realistic algo & params (`roughness`, `metalness`)
+
 - MeshDepthM
   - show depth based on camera near & far plane, monochrome
   - white near
@@ -118,7 +124,6 @@ Need light to be seen
 - [MeshDistanceM](https://threejs.org/docs/index.html?q=material#api/en/materials/MeshDistanceMaterial)
   - implementing shadow mapping w/ PointLights
 - MeshPhysicalM
-- MeshStandardM
 - PointsM
 - RawShaderM
 - ShaderM

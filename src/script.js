@@ -54,9 +54,13 @@ gradientTexture.generateMipmaps = false
 // material.specular = new THREE.Color('red')
 
 //// MeshToonMaterial
-const material = new THREE.MeshToonMaterial()
-material.gradientMap = gradientTexture
+// const material = new THREE.MeshToonMaterial()
+// material.gradientMap = gradientTexture
 
+//// MeshStandardMaterial
+const material = new THREE.MeshStandardMaterial()
+material.metalness = 0.25
+material.roughness = 0.7
 /**
  * Objects
  */
