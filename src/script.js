@@ -1,7 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-
+import * as dat from 'lil-gui'
 /**
  * Base
  */
@@ -18,6 +18,7 @@ const textureLoader = new THREE.TextureLoader()
 const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg')
 const alphaTexture = textureLoader.load('textures/door/alpha.jpg')
 const heightTexture = textureLoader.load('textures/door/height.jpg')
+const colorTexture = textureLoader.load('textures/door/color.jpg')
 const metalnessTexture = textureLoader.load('textures/door/metalness.jpg')
 const normalTexture = textureLoader.load('textures/door/normal.jpg')
 const roughnessTexture = textureLoader.load('textures/door/roughness.jpg')
@@ -59,8 +60,25 @@ gradientTexture.generateMipmaps = false
 
 //// MeshStandardMaterial
 const material = new THREE.MeshStandardMaterial()
+material.map = colorTexture
 material.metalness = 0.25
 material.roughness = 0.7
+
+/**
+ * Debug
+ */
+const gui = new dat.GUI()
+
+gui.add(material, 'metalness').min(0).max(1).step(0.0001)
+gui.add(material, 'roughness').min(0).max(1).step(0.0001)
+
+window.addEventListener('keydown', (ev) => {
+  if (ev.key === 'h') {
+    if (gui._hidden) gui.show()
+    else gui.hide()
+  }
+})
+
 /**
  * Objects
  */

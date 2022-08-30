@@ -116,6 +116,9 @@ Need light to be seen
   - like MLambert & MPhong
     - supports lights
     - more realistic algo & params (`roughness`, `metalness`)
+  - aoMap (ambient occlusion map)
+    - add shadow where texture is dark
+    - need second set of UV named `uv2`
 
 - MeshDepthM
   - show depth based on camera near & far plane, monochrome
