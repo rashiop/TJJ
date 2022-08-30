@@ -149,19 +149,22 @@ Need light to be seen
   // displacement is way too strong
   material.displacementMap = heightTexture
   material.displacementScale = 0.05
-
   ```
-
+- [MeshPhysicalM](https://threejs.org/docs/index.html?q=material#api/en/materials/MeshPhysicalMaterial)
+  - same as MStandardMaterial
+  - support clear coat effect
+  - e.g: ball 
+  - CONS: heavy work for GPU
+- [PointsM](https://threejs.org/docs/index.html?q=material#api/en/materials/PointsMaterial)
+  - usage: particles
 - MeshDepthM
   - show depth based on camera near & far plane, monochrome
   - white near
   - black far
 - [MeshDistanceM](https://threejs.org/docs/index.html?q=material#api/en/materials/MeshDistanceMaterial)
   - implementing shadow mapping w/ PointLights
-- MeshPhysicalM
-- PointsM
-- RawShaderM
-- ShaderM
+- RawShaderM - Custom Material
+- ShaderM - Custom Material
 - ShadowM
 - SpriteM
 ### Adding light
@@ -176,4 +179,28 @@ pointLight.position.x = 2
 pointLight.position.y = 3
 pointLight.position.z = 4
 scene.add(pointLight)
+```
+
+## Environment Map
+Image of what's surrounding the scene to create very realistic render
+- used for reflection / refraction and general lightning
+- supported by multiple materials
+- only support cube env map
+Source:
+- image [poly haven](https://polyhaven.com/)
+- convert to cube map [hdri-to-cube-map](https://matheowis.github.io/HDRI-to-CubeMap/)
+```js
+// 1. Load using CubeTextureLoader
+const cubeTextureLoader = new THREE.CubeTextureLoader()
+// 2. Load texture
+const environmentMapTexture = cubeTextureLoader.load([
+  '/textures/environmentMaps/0/px.jpg',
+  '/textures/environmentMaps/0/nx.jpg',
+  '/textures/environmentMaps/0/py.jpg',
+  '/textures/environmentMaps/0/ny.jpg',
+  '/textures/environmentMaps/0/pz.jpg',
+  '/textures/environmentMaps/0/nz.jpg',
+])
+// 3. use on material
+material.envMap = environmentMapTexture
 ```

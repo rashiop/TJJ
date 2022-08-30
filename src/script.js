@@ -15,6 +15,8 @@ const scene = new THREE.Scene()
  * Texture
  */
 const textureLoader = new THREE.TextureLoader()
+const cubeTextureLoader = new THREE.CubeTextureLoader()
+
 const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg')
 const alphaTexture = textureLoader.load('textures/door/alpha.jpg')
 const heightTexture = textureLoader.load('textures/door/height.jpg')
@@ -25,9 +27,19 @@ const roughnessTexture = textureLoader.load('textures/door/roughness.jpg')
 const ambientOcclusionTexture = textureLoader.load('textures/door/ambientOcclusion.jpg')
 const matcapTexture = textureLoader.load('/textures/matcaps/1.png')
 const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
-gradientTexture.minFilter = THREE.NearestFilter
-gradientTexture.magFilter = THREE.NearestFilter
-gradientTexture.generateMipmaps = false
+// gradientTexture.minFilter = THREE.NearestFilter
+// gradientTexture.magFilter = THREE.NearestFilter
+// gradientTexture.generateMipmaps = false
+
+const environmentMapTexture = cubeTextureLoader.load([
+  '/textures/environmentMaps/0/px.jpg',
+  '/textures/environmentMaps/0/nx.jpg',
+  '/textures/environmentMaps/0/py.jpg',
+  '/textures/environmentMaps/0/ny.jpg',
+  '/textures/environmentMaps/0/pz.jpg',
+  '/textures/environmentMaps/0/nz.jpg',
+])
+
 //// MeshBasicMaterial
 // const material = new THREE.MeshBasicMaterial({
 //   map: doorNormalTexture,
@@ -59,8 +71,25 @@ gradientTexture.generateMipmaps = false
 // material.gradientMap = gradientTexture
 
 //// MeshStandardMaterial
+// const material = new THREE.MeshStandardMaterial()
+// material.map = colorTexture
+// material.aoMap = ambientOcclusionTexture
+// material.aoMapIntensity = 1
+// material.displacementMap = heightTexture
+// material.displacementScale = 0.05
+// // material.metalness = 0.25
+// // material.roughness = 0.7
+// material.metalnessMap = metalnessTexture
+// material.roughnessMap = roughnessTexture
+// material.normalMap = normalTexture
+// material.normalScale.set(0.5, 0.5)
+// material.transparent = true
+// material.alphaMap = alphaTexture
+
 const material = new THREE.MeshStandardMaterial()
-material.map = colorTexture
+material.metalness = 0.7
+material.roughness = 0.2
+material.envMap = environmentMapTexture
 
 /**
  * Debug
@@ -69,8 +98,8 @@ const gui = new dat.GUI()
 
 gui.add(material, 'metalness').min(0).max(1).step(0.0001)
 gui.add(material, 'roughness').min(0).max(1).step(0.0001)
-gui.add(material, 'aoMapIntensity').min(0).max(10).step(0.01)
-gui.add(material, 'displacementScale').min(0).max(1).step(0.0001)
+// gui.add(material, 'aoMapIntensity').min(0).max(10).step(0.01)
+// gui.add(material, 'displacementScale').min(0).max(1).step(0.0001)
 
 window.addEventListener('keydown', (ev) => {
   if (ev.key === 'h') {
@@ -91,23 +120,9 @@ const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1, 100, 100), material)
 const torus = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.1, 64, 128), material)
 torus.position.set(1.5, 0, 0)
 
-sphere.geometry.setAttribute('uv2', new THREE.BufferAttribute(sphere.geometry.attributes.uv.array, 2))
-plane.geometry.setAttribute('uv2', new THREE.BufferAttribute(plane.geometry.attributes.uv.array, 2))
-torus.geometry.setAttribute('uv2', new THREE.BufferAttribute(torus.geometry.attributes.uv.array, 2))
-
-material.aoMap = ambientOcclusionTexture
-material.aoMapIntensity = 1
-material.displacementMap = heightTexture
-material.displacementScale = 0.05
-// material.metalness = 0.25
-// material.roughness = 0.7
-material.metalnessMap = metalnessTexture
-material.roughnessMap = roughnessTexture
-material.normalMap = normalTexture
-material.normalScale.set(0.5, 0.5)
-
-material.transparent = true
-material.alphaMap = alphaTexture
+// sphere.geometry.setAttribute('uv2', new THREE.BufferAttribute(sphere.geometry.attributes.uv.array, 2))
+// plane.geometry.setAttribute('uv2', new THREE.BufferAttribute(plane.geometry.attributes.uv.array, 2))
+// torus.geometry.setAttribute('uv2', new THREE.BufferAttribute(torus.geometry.attributes.uv.array, 2))
 
 scene.add(sphere, plane, torus)
 
