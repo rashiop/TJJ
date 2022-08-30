@@ -74,6 +74,23 @@ gradientTexture.minFilter = THREE.NearestFilter
 gradientTexture.magFilter = THREE.NearestFilter
 gradientTexture.generateMipmaps = false
 
+
+// 4. MeshStandardM -> like Normal & Phong but more realistic + params (rough & metal)
+// show more texture to create contrast
+material.aoMap = ambientOcclusionTexture
+material.aoMapIntensity = 1
+material.metalness = 0.13
+material.roughness = 0.6
+material.metalnessMap = metalnessTexture
+material.roughnessMap = roughnessTexture
+material.normalMap = normalTexture
+material.normalScale.set(0.5, 0.5)
+
+material.transparent = true
+material.alphaMap = alphaTexture
+// fake normals orientation & add details on the surface regardless of the subdivision
+material.normalMap = normalTexture
+
 ```
 ## Material Type
 Can exist without light
@@ -119,6 +136,21 @@ Need light to be seen
   - aoMap (ambient occlusion map)
     - add shadow where texture is dark
     - need second set of UV named `uv2`
+  ```js
+  // it will emphasis the crevices -- darker to create contrast & dimension
+  sphere.geometry.setAttribute(
+    'uv2',
+    new THREE.BufferAttribute(sphere.geometry.attributes.uv.array, 2)
+  )
+  material.aoMap = ambientOcclusionTexture
+  material.aoMapIntensity = 1
+
+  // might look terrible because it lacks vertics
+  // displacement is way too strong
+  material.displacementMap = heightTexture
+  material.displacementScale = 0.05
+
+  ```
 
 - MeshDepthM
   - show depth based on camera near & far plane, monochrome
