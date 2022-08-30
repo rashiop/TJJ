@@ -14,11 +14,25 @@ const scene = new THREE.Scene()
 /**
  * Texture
  */
-const doorNormalTexture = new THREE.TextureLoader().load('/textures/door/normal.jpg')
+const textureLoader = new THREE.TextureLoader()
+const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg')
+const alphaTexture = textureLoader.load('textures/door/alpha.jpg')
+const heightTexture = textureLoader.load('textures/door/height.jpg')
+const metalnessTexture = textureLoader.load('textures/door/metalness.jpg')
+const normalTexture = textureLoader.load('textures/door/normal.jpg')
+const roughnessTexture = textureLoader.load('textures/door/roughness.jpg')
+const ambientOcclusionTexture = textureLoader.load('textures/door/ambientOcclusion.jpg')
+const matcapTexture = textureLoader.load('/textures/matcaps/1.png')
+const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
+
 const material = new THREE.MeshBasicMaterial({
   map: doorNormalTexture,
-  color: 0xff0000,
+  //   color: 0xff0000,
 })
+
+material.transparent = true
+material.alphaMap = alphaTexture
+material.side = THREE.FrontSide
 
 /**
  * Objects
@@ -91,9 +105,9 @@ const tick = () => {
   plane.rotation.y = elapsedTime * 0.1
   torus.rotation.y = elapsedTime * 0.1
 
-  sphere.rotation.x = elapsedTime * 0.1
-  plane.rotation.x = elapsedTime * 0.1
-  torus.rotation.x = elapsedTime * 0.1
+  sphere.rotation.x = elapsedTime * 0.15
+  plane.rotation.x = elapsedTime * 0.15
+  torus.rotation.x = elapsedTime * 0.15
 
   // Update controls
   controls.update()
