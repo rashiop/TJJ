@@ -66,8 +66,20 @@ material.side = THREE.DoubleSide
 - [MeshLambertM](https://threejs.org/docs/index.html?q=material#api/en/materials/MeshLambertMaterial)
   - FOR: non-shiny surfaces, wo specular highlights
 - MeshMatcapM
+  - using normal as reference
+  - to pick right color on texture that look like sphere
+  - vs `MeshNormalM`? use color while `MeshNormalM` only rgb
+  - PROS: simulate light w.o light on screen
+  - find more on [source](https://github.com/nidorx/matcaps)
 - MeshNormalM
   - map normal vectors to RGB colors
+  - normals
+    - info encoded in each vertex that contains the direction of the outside of the face
+    - if displayed as arrows, you would get straight lines comings out of each vertex that composes your geometry
+    - USAGE? calc on objects illumination or reflect|refract on geo surface
+  - flatShading - flatten faces, normals wont be interpolated between the vertices
+
+
   
 - MeshPhongM
 - MeshPhysicalM

@@ -25,15 +25,23 @@ const ambientOcclusionTexture = textureLoader.load('textures/door/ambientOcclusi
 const matcapTexture = textureLoader.load('/textures/matcaps/1.png')
 const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
 
-const material = new THREE.MeshBasicMaterial({
-  map: doorNormalTexture,
-  //   color: 0xff0000,
-})
+//// MeshBasicMaterial
+// const material = new THREE.MeshBasicMaterial({
+//   map: doorNormalTexture,
+//   //   color: 0xff0000,
+// })
 
-material.transparent = true
-material.alphaMap = alphaTexture
-material.side = THREE.FrontSide
+// material.transparent = true
+// material.alphaMap = alphaTexture
+// material.side = THREE.FrontSide
 
+//// MeshNormalMaterial
+// const material = new THREE.MeshNormalMaterial()
+// material.flatShading = true
+
+//// MeshMatCapMaterial
+const material = new THREE.MeshMatcapMaterial()
+material.matcap = matcapTexture
 /**
  * Objects
  */
