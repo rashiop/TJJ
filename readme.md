@@ -10,6 +10,7 @@ Threejs Journey - Code along
 6. [fullscreen](https://github.com/rashiop/TJJ_chapter_1/tree/06_fullscreen) - handle resize, fullscreen, pixel ratio (handle stair render)
 7. [geometrics](https://github.com/rashiop/TJJ_chapter_1/tree/07_geometries) - built-in geo & custom geo
 8. [debug ui](https://github.com/rashiop/TJJ_chapter_1/tree/08_debug-ui) - add tweaks as you go for faster development
+9. [texture](https://github.com/rashiop/TJJ_chapter_1/tree/09_texture) - cover our geometries surface while keep the performance on check
 
 ### Classic Techniques
 ### Advance Tech
