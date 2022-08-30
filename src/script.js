@@ -40,8 +40,16 @@ const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
 // material.flatShading = true
 
 //// MeshMatCapMaterial
-const material = new THREE.MeshMatcapMaterial()
-material.matcap = matcapTexture
+// const material = new THREE.MeshMatcapMaterial()
+// material.matcap = matcapTexture
+
+//// MeshLambertMaterial - like unfurnished wood / stone
+// const material = new THREE.MeshLambertMaterial()
+
+//// MeshPhongMaterial - like shiny furnished wood
+const material = new THREE.MeshPhongMaterial()
+material.shininess = 100
+material.specular = new THREE.Color('red')
 /**
  * Objects
  */
@@ -55,6 +63,19 @@ const torus = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.1, 10, 50), material
 torus.position.set(1.5, 0, 0)
 
 scene.add(sphere, plane, torus)
+
+/**
+ * Lights
+ */
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+
+const pointLight = new THREE.PointLight(0xffffff, 0.5)
+pointLight.position.x = 2
+pointLight.position.y = 3
+pointLight.position.z = 4
+
+scene.add(ambientLight)
+scene.add(pointLight)
 
 /**
  * Sizes
