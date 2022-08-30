@@ -24,7 +24,9 @@ const roughnessTexture = textureLoader.load('textures/door/roughness.jpg')
 const ambientOcclusionTexture = textureLoader.load('textures/door/ambientOcclusion.jpg')
 const matcapTexture = textureLoader.load('/textures/matcaps/1.png')
 const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
-
+gradientTexture.minFilter = THREE.NearestFilter
+gradientTexture.magFilter = THREE.NearestFilter
+gradientTexture.generateMipmaps = false
 //// MeshBasicMaterial
 // const material = new THREE.MeshBasicMaterial({
 //   map: doorNormalTexture,
@@ -47,9 +49,14 @@ const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
 // const material = new THREE.MeshLambertMaterial()
 
 //// MeshPhongMaterial - like shiny furnished wood
-const material = new THREE.MeshPhongMaterial()
-material.shininess = 100
-material.specular = new THREE.Color('red')
+// const material = new THREE.MeshPhongMaterial()
+// material.shininess = 100
+// material.specular = new THREE.Color('red')
+
+//// MeshToonMaterial
+const material = new THREE.MeshToonMaterial()
+material.gradientMap = gradientTexture
+
 /**
  * Objects
  */

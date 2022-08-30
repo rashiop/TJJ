@@ -28,6 +28,9 @@ const material = new THREE.MeshBasicMaterial({
       - twice triangle to render 
       - show plane geo's back & front side
 ```js
+/**
+ * Common Props
+*/
 // map - apply texture
 const material = new THREE.MeshBasicMaterial({
     map: doorColorTexture
@@ -46,11 +49,31 @@ material.wireframe = true
 material.transparent = true
 material.opacity = 0.5
 
-// alphaMap need transparent = true, apply transparent with texture
+// alphaMap need transparent = true
+// apply transparent with texture
 material.alphaMap = doorAlphaTexture
 
 // which side is visible
 material.side = THREE.DoubleSide
+
+/** 
+ * Specialized props
+**/
+// 1. MeshNormalM
+material.flatShading = true
+
+// 2. MeshPhongM
+material.shininess = 100
+// set the light reflection color
+material.specular = new THREE.Color(0xff0000)
+
+// 3. MeshToonM -> add coloration
+// if cartoon effect removed, it caused by mipmapping
+material.gradientMap = gradientTexture
+gradientTexture.minFilter = THREE.NearestFilter
+gradientTexture.magFilter = THREE.NearestFilter
+gradientTexture.generateMipmaps = false
+
 ```
 ## Material Type
 Can exist without light
@@ -70,9 +93,6 @@ Can exist without light
     - if displayed as arrows, you would get straight lines comings out of each vertex that composes your geometry
     - USAGE? calc on objects illumination or reflect|refract on geo surface
   - flatShading - flatten faces, normals wont be interpolated between the vertices
-  ```js
-    material.flatShading = true
-  ```
 
 Need light to be seen
 - [MeshLambertM](https://threejs.org/docs/index.html?q=material#api/en/materials/MeshLambertMaterial)
@@ -85,13 +105,12 @@ Need light to be seen
   - PROS: bye weird line pattern, light reflection  :D :bulb:
   - CONS: performance
   - usage: varnished wood, pearl, plastic ornament
-  - props
-  ```js
-   // more shinyyy
-    material.shininess = 100
-    // set the light reflection color
-    material.specular = new THREE.Color(0xff0000)
-  ```
+  - props `shininess` and `specular` (light reflection color)
+- MeshToonM
+  - similar to MeshLambertM but cartoonist
+  - add  `gradientMap` to add coloration 
+    - if `gradientMap` remove the cartoon effect, it could caused by [mipmapping](https://github.com/rashiop/TJJ_chapter_1/tree/09_texture#6-filtering-and-mipmapping)
+    - solution: add filter `minFilter` or and `magFilter` to gradientTexture
 - MeshDepthM
   - show depth based on camera near & far plane, monochrome
   - white near
@@ -100,7 +119,6 @@ Need light to be seen
   - implementing shadow mapping w/ PointLights
 - MeshPhysicalM
 - MeshStandardM
-- MeshToonM
 - PointsM
 - RawShaderM
 - ShaderM
