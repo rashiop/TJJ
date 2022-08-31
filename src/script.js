@@ -3,7 +3,8 @@ import './style.css'
 import * as dat from 'lil-gui'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 /**
  * Base
  */
@@ -20,6 +21,33 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+
+/**
+ * Materials
+ */
+const matcapTexture = textureLoader.load('/textures/matcaps/8.png')
+
+/**
+ * FontLoader
+ */
+const fontLoader = new FontLoader()
+fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
+  const textGeometry = new TextGeometry('Poppy Sari', {
+    font,
+    size: 0.5,
+    height: 0.2,
+    bevelEnabled: true,
+    bevelThickness: 0.03,
+    bevelSize: 0.02,
+    bevelOffset: 0,
+    bevelSegments: 5,
+  })
+  const textMaterial = new THREE.MeshMatcapMaterial()
+  textMaterial.matcap = matcapTexture
+
+  const text = new THREE.Mesh(textGeometry, textMaterial)
+  scene.add(text)
+})
 
 /**
  * Object
@@ -49,6 +77,19 @@ window.addEventListener('resize', () => {
   renderer.setSize(sizes.width, sizes.height)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
+
+/**
+ * Lights
+ */
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+
+const pointLight = new THREE.PointLight(0xffffff, 0.5)
+pointLight.position.x = 2
+pointLight.position.y = 3
+pointLight.position.z = 4
+
+scene.add(ambientLight)
+scene.add(pointLight)
 
 /**
  * Camera
