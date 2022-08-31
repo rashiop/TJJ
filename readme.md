@@ -11,6 +11,7 @@ Threejs Journey - Code along
 7. [geometrics](https://github.com/rashiop/TJJ_chapter_1/tree/07_geometries) - built-in geo & custom geo
 8. [debug ui](https://github.com/rashiop/TJJ_chapter_1/tree/08_debug-ui) - add tweaks as you go for faster development
 9. [texture](https://github.com/rashiop/TJJ_chapter_1/tree/09_texture) - cover our geometries surface while keep the performance on check
+10. [material](https://github.com/rashiop/TJJ_chapter_1/tree/10_material) - cover our geometries surface with color
 
 ### Classic Techniques
 ### Advance Tech
