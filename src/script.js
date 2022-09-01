@@ -17,6 +17,10 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
+// Axes Helper
+// const axesHelper = new THREE.AxesHelper(5)
+// scene.add(axesHelper)
+
 /**
  * Textures
  */
@@ -36,16 +40,22 @@ fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
     font,
     size: 0.5,
     height: 0.2,
+    curveSegments: 5,
     bevelEnabled: true,
     bevelThickness: 0.03,
     bevelSize: 0.02,
     bevelOffset: 0,
-    bevelSegments: 5,
+    bevelSegments: 4,
   })
   const textMaterial = new THREE.MeshMatcapMaterial()
   textMaterial.matcap = matcapTexture
 
+  //   const textMaterial = new THREE.MeshBasicMaterial()
+  //   gui.add(textMaterial, 'wireframe')
+
   const text = new THREE.Mesh(textGeometry, textMaterial)
+  textGeometry.center()
+
   scene.add(text)
 })
 
