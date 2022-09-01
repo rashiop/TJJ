@@ -47,21 +47,39 @@ fontLoader.load('/fonts/helvetiker_regular.typeface.json', (font) => {
     bevelOffset: 0,
     bevelSegments: 4,
   })
-  const textMaterial = new THREE.MeshMatcapMaterial()
-  textMaterial.matcap = matcapTexture
+  const material = new THREE.MeshMatcapMaterial()
+  material.matcap = matcapTexture
 
   //   const textMaterial = new THREE.MeshBasicMaterial()
   //   gui.add(textMaterial, 'wireframe')
 
-  const text = new THREE.Mesh(textGeometry, textMaterial)
+  const text = new THREE.Mesh(textGeometry, material)
   textGeometry.center()
 
   scene.add(text)
-})
 
-/**
- * Object
- */
+  /**
+   * Object
+   */
+  console.time('donuts')
+  const donutGeometry = new THREE.TorusBufferGeometry(0.03, 0.01, 10, 20)
+
+  for (let i = 0; i < 300; i++) {
+    const donut = new THREE.Mesh(donutGeometry, material)
+    donut.position.set((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10)
+    donut.rotation.set(
+      (Math.random() - 0.5) * Math.PI,
+      (Math.random() - 0.5) * Math.PI,
+      (Math.random() - 0.5) * Math.PI
+    )
+
+    const scale = Math.random()
+    donut.scale.set(scale, scale, scale)
+
+    scene.add(donut)
+  }
+  console.timeEnd('donuts')
+})
 
 /**
  * Sizes
