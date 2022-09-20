@@ -33,25 +33,37 @@ gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
 - we cant see back parts
 
 ![Screenshot 2022-09-20 at 17 18 16](https://user-images.githubusercontent.com/31156788/191232847-65523048-1b50-406b-970d-8e1bb1e9a795.png)
-
+```js
+const directionalLight = new THREE.DirectionalLight()
+// move direction x y z
+directionalLight.position.set(1, 0.25, 0)
+scene.add(directionalLight)
+```
 
 ## HemisphereLight
-- similar to AL, but:
-    - has diff color from the sky than the color from the ground
+- similar to AL
+- but more realistic
+- has diff color from the sky than the color from the ground
+- e.g: ground & sky
 ```js
 // skyColor, groundColor, intensity
 const hemisphereLight = new THREE.HemisphereLight(0xff0000, 0x0000ff, 0.3)
 scene.add(hemisphereLight)
 ```
+![Screenshot 2022-09-20 at 17 33 23](https://user-images.githubusercontent.com/31156788/191235962-86755cdd-5129-4b4d-8050-eb3ae32bd31f.png)
+
 
 ## PointLight
 - like a lighter
 - small
 - light spreads uniformly in every dir
 - can be moved
+- decay = how fast light move
+- distance = how far
 
 By default, the light intensity doesn't fade. But you can control that fade distance and how fast it is fading using the distance and decay properties. You can set those in the parameters of the class as the third and fourth parameters, or in the properties of the instance:
 
+![Screenshot 2022-09-20 at 17 47 59](https://user-images.githubusercontent.com/31156788/191238715-6f49a1ff-19d5-4ae4-bceb-f5837e5907bd.png)
 
 ```js
 // color, intensity, (opt) distance, (opt) decay
@@ -61,11 +73,13 @@ pointLight.position.set(1, - 0.5, 1)
 ```
 
 ## RectAreaLight
-- big rect lights
+- big rect lights, just like on photoshoot
 - mix between directional light & diffuse light
 - only works with `MeshStandardMaterial` & `MeshPhysicalMaterial`
 - ease rotation using lookAt
 - A Vector3 without any parameter will have its x, y, and z to 0 (the center of the scene)
+
+![Screenshot 2022-09-20 at 19 13 01](https://user-images.githubusercontent.com/31156788/191254497-19dc90e5-5db9-4e83-b68b-c281961161da.png)
 
 ```js
 // color, intensity, width, height
@@ -75,8 +89,10 @@ scene.add(rectAreaLight)
 // move the light & rotate it
 // ease rotation using lookAt
 rectAreaLight.position.set(- 1.5, 0, 1.5)
+// vector3 = 0,0,0
 rectAreaLight.lookAt(new THREE.Vector3())
 ```
+
 
 ## SpotLight
 - flashlight
@@ -86,10 +102,11 @@ rectAreaLight.lookAt(new THREE.Vector3())
   - intensity: the strength
   - distance: the distance at which the intensity drops to 0
   - angle: how large is the beam
-  - penumbra: how diffused is the contour of the beam
+  - penumbra: how diffused is the contour of the beam (sharp / diffused)
   - decay: how fast the light dims
 - Rotating our SpotLight is a little harder. The instance has a property named target, which is an Object3D. The SpotLight is always looking at that target object. But if you try to change its position, the SpotLight won't budge:
 
+![Screenshot 2022-09-20 at 19 14 18](https://user-images.githubusercontent.com/31156788/191254708-5fe4d05d-b47d-4596-a349-9dae82cc7d69.png)
 
 ```js
 const spotLight = new THREE.SpotLight(
@@ -131,39 +148,40 @@ Light cost a lot on performance
 - CONS: wont be able to move the lights, need a lot of textures
 
 ## Helpers
-Positioning and orienting the lights is hard. To assist us, we can use helpers. Only the following helpers are supported:
+To show camera position and orientation.
+However, only the following helpers are supported:
 - HemisphereLightHelper
 - DirectionalLightHelper
 - PointLightHelper
 - RectAreaLightHelper -- harder to use
   ```js
-    import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
+        import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 
-    const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight)
-    scene.add(rectAreaLightHelper)
+        const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight)
+        scene.add(rectAreaLightHelper)
   ```
-
 - SpotLightHelper
+  ```js
+        // 1. Simply instantiate those classes
+        // 2. Use the corresponding light as a parameter, and add them to the scene
+        // The second parameter enables you to change the helper's size:
 
-To use them, simply instantiate those classes. Use the corresponding light as a parameter, and add them to the scene. The second parameter enables you to change the helper's size:
+        const hemisphereLightHelper = new THREE.HemisphereLightHelper(hemisphereLight, 0.2)
+        scene.add(hemisphereLightHelper)
 
-```js
-const hemisphereLightHelper = new THREE.HemisphereLightHelper(hemisphereLight, 0.2)
-scene.add(hemisphereLightHelper)
+        const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 0.2)
+        scene.add(directionalLightHelper)
 
-const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 0.2)
-scene.add(directionalLightHelper)
+        const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2)
+        scene.add(pointLightHelper)
 
-const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2)
-scene.add(pointLightHelper)
+        // For the SpotLightHelper, there is no size parameter.
+        // Also, after moving the target, you need to call the update(...) method but on the next frame:
 
-// For the SpotLightHelper, there is no size parameter.
-// Also, after moving the target, you need to call the update(...) method but on the next frame:
-
-const spotLightHelper = new THREE.SpotLightHelper(spotLight)
-scene.add(spotLightHelper)
-window.requestAnimationFrame(() =>
-{
-    spotLightHelper.update()
-})
-```
+        const spotLightHelper = new THREE.SpotLightHelper(spotLight)
+        scene.add(spotLightHelper)
+        window.requestAnimationFrame(() =>
+        {
+            spotLightHelper.update()
+        })
+    ```
