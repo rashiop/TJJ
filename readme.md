@@ -6,6 +6,10 @@ Material that reacts to lights
 
 ## AmbientLight
 - omnidirectional lightning on all geos of the scene
+- has dimlight, that's why we can see the back
+![Screenshot 2022-09-20 at 17 18 02](https://user-images.githubusercontent.com/31156788/191232794-816c50fd-a981-4df9-b64a-a4e08c2d38e9.png)
+
+
 ```js
 // color, intensity
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
@@ -22,6 +26,14 @@ debug the material
 ```js
 gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
 ```
+
+## DirectionalLight
+- sun-like effect as if sun rays were travelling in parallel
+- props color, intensity
+- we cant see back parts
+
+![Screenshot 2022-09-20 at 17 18 16](https://user-images.githubusercontent.com/31156788/191232847-65523048-1b50-406b-970d-8e1bb1e9a795.png)
+
 
 ## HemisphereLight
 - similar to AL, but:
