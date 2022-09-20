@@ -15,6 +15,7 @@ Threejs Journey - Code along
 11. [3d text](https://github.com/rashiop/TJJ_chapter_1/tree/11_3d-text)
 
 ### Classic Techniques
+1. [lights](https://github.com/rashiop/TJJ/tree/12_lights)
 ### Advance Tech
 ### Shaders
 ### Extra
