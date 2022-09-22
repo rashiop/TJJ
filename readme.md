@@ -16,7 +16,7 @@ Threejs Journey - Code along
 
 ### Classic Techniques
 1. [lights](https://github.com/rashiop/TJJ/tree/12_lights) - use light, however we might want light baking instead
-2. [shadow](https://github.com/rashiop/TJJ/blob/13_shadows) - use shadow, however we might want shadow baking instead
+2. [shadow](https://github.com/rashiop/TJJ/tree/13_shadows) - use shadow, however we might want shadow baking instead
 ### Advance Tech
 ### Shaders
 ### Extra
