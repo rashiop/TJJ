@@ -65,14 +65,17 @@ const wall = new THREE.Mesh(
     map: bricksColorTexture,
   })
 )
+wall.castShadow = true
+wall.receiveShadow = true
 wall.geometry.setAttribute('uv2', new THREE.Float32BufferAttribute(wall.geometry.attributes.uv.array, 2))
-
 wall.position.y = 1.5
 
 /// Roof
 const roof = new THREE.Mesh(new THREE.ConeGeometry(3, 1.5, 4), new THREE.MeshBasicMaterial({ color: 0x753e2a }))
 roof.position.y = 3.5
 roof.rotateY(0.8)
+roof.castShadow = true
+roof.receiveShadow = true
 
 const roofFolder = gui.addFolder('Roof')
 const roofPositionFolder = roofFolder.addFolder('Position')
@@ -101,6 +104,7 @@ const door = new THREE.Mesh(
 door.geometry.setAttribute('uv2', new THREE.Float32BufferAttribute(door.geometry.attributes.uv.array, 2))
 door.position.z = 1.5
 door.position.y = 1
+door.castShadow = true
 
 const doorFolder = gui.addFolder('Door')
 const doorPositionFolder = doorFolder.addFolder('Position')
@@ -112,6 +116,7 @@ doorPositionFolder.add(door.position, 'z').min(-5).max(5).step(0.001)
 const bushGeometry = new THREE.SphereGeometry(0.4, 32, 15)
 const bushMaterial = new THREE.MeshBasicMaterial({ color: 0x308230 })
 const bush = new THREE.Mesh(bushGeometry, bushMaterial)
+bush.castShadow = true
 bush.position.x = 1.074
 bush.position.y = 0.027
 bush.position.z = 1.6
@@ -190,6 +195,7 @@ floor.geometry.setAttribute('uv2', new THREE.Float32BufferAttribute(floor.geomet
 
 floor.rotation.x = -Math.PI * 0.5
 floor.position.y = 0
+floor.receiveShadow = true
 scene.add(floor)
 
 /**
@@ -207,6 +213,7 @@ for (let i = 0; i < 50; i++) {
     (Math.random() - 0.5) * Math.PI * 0.7,
     (Math.random() - 0.5) * Math.PI * 0.2
   )
+  grave.castShadow = true
 
   graves.add(grave)
 }
@@ -218,12 +225,20 @@ scene.add(graves)
  */
 // Ambient light
 const ambientLight = new THREE.AmbientLight('0xb9d5ff', 0.12)
+ambientLight.castShadow = true
+
 gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
 scene.add(ambientLight)
 
 // Directional light
 const moonLight = new THREE.DirectionalLight('0x0B3C49', 0.12)
 moonLight.position.set(4, 5, -2)
+moonLight.castShadow = true
+// reduce for performance
+moonLight.shadow.mapSize.width = 256
+moonLight.shadow.mapSize.height = 256
+moonLight.shadow.camera.far = 15
+
 gui.add(moonLight, 'intensity').min(0).max(1).step(0.001)
 gui.add(moonLight.position, 'x').min(-5).max(5).step(0.001)
 gui.add(moonLight.position, 'y').min(-5).max(5).step(0.001)
@@ -234,6 +249,7 @@ scene.add(moonLight)
 const doorLight = new THREE.PointLight('0xff7d46', 1, 7)
 doorLight.position.set(0, 2.2, 1.7)
 house.add(doorLight)
+doorLight.castShadow = true
 
 const doorLightFolder = gui.addFolder('Door Light')
 doorLightFolder.add(doorLight, 'intensity').min(0).max(1).step(0.001)
@@ -253,12 +269,16 @@ scene.fog = fog
  */
 const ghost1 = new THREE.PointLight('#ff00ff', 2, 4)
 scene.add(ghost1)
+ghost1.castShadow = true
 
 const ghost2 = new THREE.PointLight('#00ffff', 2, 4)
 scene.add(ghost2)
+ghost2.castShadow = true
 
 const ghost3 = new THREE.PointLight('#ffff00', 2, 4)
 scene.add(ghost3)
+ghost3.castShadow = true
+
 /**
  * Sizes
  */
