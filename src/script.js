@@ -166,6 +166,13 @@ const doorLightPositionFolder = doorLightFolder.addFolder('Position')
 doorLightPositionFolder.add(doorLight.position, 'x').min(-5).max(5).step(0.001)
 doorLightPositionFolder.add(doorLight.position, 'y').min(-5).max(5).step(0.001)
 doorLightPositionFolder.add(doorLight.position, 'z').min(-5).max(5).step(0.001)
+
+/**
+ * Fog
+ */
+const fog = new THREE.Fog('#262837', 1.7, 15)
+scene.fog = fog
+
 /**
  * Sizes
  */
