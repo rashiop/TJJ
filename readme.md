@@ -2,11 +2,11 @@
 Practice previous subjects:
 - geometries
     - elementary house - House
-        - walls
-        - roof
-        - door
-        - bushes
-    - grave
+        - walls - box geometry
+        - roof - cone
+        - door - box
+        - bushes - sphere
+    - grave - box
     - multicolor lights floating arround as ghost
 - textures
 
@@ -17,7 +17,6 @@ imperial units need conversion
 ## Step
 1. Create a House group
 ![Screenshot 2022-09-26 at 13 54 42](https://user-images.githubusercontent.com/31156788/192212091-882b6830-3eac-4b5c-aa12-39f34c492819.png)
-
 2. Create a Graves group
 ![Screenshot 2022-09-26 at 13 54 55](https://user-images.githubusercontent.com/31156788/192212126-149da62a-8990-47cc-b928-ff7a3e0cdc96.png)
 
