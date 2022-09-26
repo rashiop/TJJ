@@ -17,7 +17,7 @@ Threejs Journey - Code along
 ### Classic Techniques
 1. [lights](https://github.com/rashiop/TJJ/tree/12_lights) - use light, however we might want light baking instead
 2. [shadow](https://github.com/rashiop/TJJ/tree/13_shadows) - use shadow, however we might want shadow baking instead
-3. [haunted house)(https://github.com/rashiop/TJJ/tree/14_haunted_house) - utilise basic + classic
+3. [haunted house](https://github.com/rashiop/TJJ/tree/14_haunted_house) - utilise basic + classic
     - my version on [vercel](https://tjj-y9zz-rashiop.vercel.app/)
 4. particles
 5. galaxy generator
