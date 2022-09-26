@@ -24,11 +24,11 @@ const textureLoader = new THREE.TextureLoader()
  * House
  */
 
-const wall = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3), new THREE.MeshBasicMaterial({ color: 0x8baaad }))
+const wall = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3), new THREE.MeshBasicMaterial({ color: 0x7f5748 }))
 wall.position.y = 1.5
 
 /// Roof
-const roof = new THREE.Mesh(new THREE.ConeGeometry(3, 1.5, 4), new THREE.MeshBasicMaterial({ color: 0x4c2719 }))
+const roof = new THREE.Mesh(new THREE.ConeGeometry(3, 1.5, 4), new THREE.MeshBasicMaterial({ color: 0x753e2a }))
 roof.position.y = 3.5
 roof.rotateY(0.8)
 
@@ -53,7 +53,7 @@ doorPositionFolder.add(door.position, 'z').min(-5).max(5).step(0.001)
 
 /// Bush
 const bushGeometry = new THREE.SphereGeometry(0.4, 32, 15)
-const bushMaterial = new THREE.MeshBasicMaterial({ color: 0x228c22 })
+const bushMaterial = new THREE.MeshBasicMaterial({ color: 0x308230 })
 const bush = new THREE.Mesh(bushGeometry, bushMaterial)
 bush.position.x = 1.074
 bush.position.y = 0.027
@@ -142,12 +142,12 @@ scene.add(graves)
  * Lights
  */
 // Ambient light
-const ambientLight = new THREE.AmbientLight('#ffffff', 0.5)
+const ambientLight = new THREE.AmbientLight('0xb9d5ff', 0.12)
 gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
 scene.add(ambientLight)
 
 // Directional light
-const moonLight = new THREE.DirectionalLight('#ffffff', 0.5)
+const moonLight = new THREE.DirectionalLight('0x0B3C49', 0.12)
 moonLight.position.set(4, 5, -2)
 gui.add(moonLight, 'intensity').min(0).max(1).step(0.001)
 gui.add(moonLight.position, 'x').min(-5).max(5).step(0.001)
@@ -155,6 +155,17 @@ gui.add(moonLight.position, 'y').min(-5).max(5).step(0.001)
 gui.add(moonLight.position, 'z').min(-5).max(5).step(0.001)
 scene.add(moonLight)
 
+// Point Light
+const doorLight = new THREE.PointLight('0xff7d46', 1, 7)
+doorLight.position.set(0, 2.2, 1.7)
+house.add(doorLight)
+
+const doorLightFolder = gui.addFolder('Door Light')
+doorLightFolder.add(doorLight, 'intensity').min(0).max(1).step(0.001)
+const doorLightPositionFolder = doorLightFolder.addFolder('Position')
+doorLightPositionFolder.add(doorLight.position, 'x').min(-5).max(5).step(0.001)
+doorLightPositionFolder.add(doorLight.position, 'y').min(-5).max(5).step(0.001)
+doorLightPositionFolder.add(doorLight.position, 'z').min(-5).max(5).step(0.001)
 /**
  * Sizes
  */
