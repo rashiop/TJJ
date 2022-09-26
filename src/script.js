@@ -4,6 +4,12 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
 
 /**
+ * Textures
+ */
+const textureLoader = new THREE.TextureLoader()
+const bakedShadow = textureLoader.load('/textures/bakedShadow.jpg')
+const simpleShadow = textureLoader.load('/textures/simpleShadow.jpg')
+/**
  * Base
  */
 // Debug
@@ -101,7 +107,8 @@ gui.add(material, 'roughness').min(0).max(1).step(0.001)
 const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), material)
 sphere.castShadow = true
 
-const plane = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), material)
+const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(5, 5), material)
+// const plane = new THREE.Mesh(new THREE.PlaneBufferGeometry(5, 5), new THREE.MeshBasicMaterial({ map: bakedShadow }))
 plane.rotation.x = -Math.PI * 0.5
 plane.position.y = -0.5
 
@@ -109,6 +116,15 @@ plane.receiveShadow = true
 
 scene.add(sphere, plane)
 
+// above the floor, below object
+const sphereShadow = new THREE.Mesh(
+  new THREE.PlaneBufferGeometry(1.5, 1.5),
+  new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, alphaMap: simpleShadow })
+)
+sphereShadow.rotation.x = -Math.PI * 0.5
+sphereShadow.position.y = plane.position.y + 0.01
+
+scene.add(sphereShadow)
 /**
  * Sizes
  */
@@ -155,7 +171,7 @@ renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 // activate shadow maps on renderer
-renderer.shadowMap.enabled = true
+renderer.shadowMap.enabled = false
 // change algorithm
 // softer edges
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
@@ -167,6 +183,12 @@ const clock = new THREE.Clock()
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
+
+  // Update the sphere
+  // Animate scene
+  sphere.position.x = Math.cos(elapsedTime) * 1.5 // left right
+  sphere.position.z = Math.sin(elapsedTime) * 1.5 // circling
+  sphere.position.y = Math.abs(Math.sin(elapsedTime * 3))
 
   // Update controls
   controls.update()
