@@ -212,14 +212,18 @@ const graveGeometry = new THREE.BoxGeometry(0.5, 0.7, 0.2)
 const graveMaterial = new THREE.MeshBasicMaterial({ color: 0x0b3c49 })
 
 const graves = new THREE.Group()
+
 for (let i = 0; i < 50; i++) {
+  const angle = Math.random() * Math.PI * 2 // Random angle
+  const radius = 3 + Math.random() * 6 // Random radius
+
   const grave = new THREE.Mesh(graveGeometry, graveMaterial)
-  grave.position.set((Math.random() - 0.5) * 15, 0.1, (Math.random() - 0.5) * 15)
-  grave.rotation.set(
-    (Math.random() - 0.5) * Math.PI * 0.5,
-    (Math.random() - 0.5) * Math.PI * 0.7,
-    (Math.random() - 0.5) * Math.PI * 0.2
-  )
+  const graveX = Math.cos(angle) * radius
+  const graveZ = Math.sin(angle) * radius
+  grave.position.set(graveX, 0.3, graveZ)
+  grave.rotation.z = (Math.random() - 0.5) * 0.4
+  grave.rotation.y = (Math.random() - 0.5) * 0.3
+
   grave.castShadow = true
 
   graves.add(grave)
