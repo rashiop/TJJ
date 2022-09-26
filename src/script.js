@@ -237,7 +237,7 @@ moonLight.castShadow = true
 // reduce for performance
 moonLight.shadow.mapSize.width = 256
 moonLight.shadow.mapSize.height = 256
-moonLight.shadow.camera.far = 15
+moonLight.shadow.camera.far = 7
 
 gui.add(moonLight, 'intensity').min(0).max(1).step(0.001)
 gui.add(moonLight.position, 'x').min(-5).max(5).step(0.001)
@@ -250,6 +250,9 @@ const doorLight = new THREE.PointLight('0xff7d46', 1, 7)
 doorLight.position.set(0, 2.2, 1.7)
 house.add(doorLight)
 doorLight.castShadow = true
+doorLight.shadow.mapSize.width = 256
+doorLight.shadow.mapSize.height = 256
+doorLight.shadow.camera.far = 7
 
 const doorLightFolder = gui.addFolder('Door Light')
 doorLightFolder.add(doorLight, 'intensity').min(0).max(1).step(0.001)
@@ -270,14 +273,23 @@ scene.fog = fog
 const ghost1 = new THREE.PointLight('#ff00ff', 2, 4)
 scene.add(ghost1)
 ghost1.castShadow = true
+ghost1.shadow.mapSize.width = 256
+ghost1.shadow.mapSize.height = 256
+ghost1.shadow.camera.far = 7
 
 const ghost2 = new THREE.PointLight('#00ffff', 2, 4)
 scene.add(ghost2)
 ghost2.castShadow = true
+ghost2.shadow.mapSize.width = 256
+ghost2.shadow.mapSize.height = 256
+ghost2.shadow.camera.far = 7
 
 const ghost3 = new THREE.PointLight('#ffff00', 2, 4)
 scene.add(ghost3)
 ghost3.castShadow = true
+ghost3.shadow.mapSize.width = 256
+ghost3.shadow.mapSize.height = 256
+ghost3.shadow.camera.far = 7
 
 /**
  * Sizes
