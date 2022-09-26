@@ -186,9 +186,14 @@ const tick = () => {
 
   // Update the sphere
   // Animate scene
+  // bouncing circling
   sphere.position.x = Math.cos(elapsedTime) * 1.5 // left right
   sphere.position.z = Math.sin(elapsedTime) * 1.5 // circling
-  sphere.position.y = Math.abs(Math.sin(elapsedTime * 3))
+  sphere.position.y = Math.abs(Math.sin(elapsedTime * 3)) // bouncing
+
+  // Update the shadow
+  sphereShadow.position.x = sphere.position.x
+  sphereShadow.position.z = sphere.position.z
 
   // Update controls
   controls.update()
