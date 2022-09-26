@@ -19,6 +19,13 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const doorColorTexture = textureLoader.load('/textures/door/color.jpg')
+const doorAlphaTexture = textureLoader.load('/textures/door/alpha.jpg')
+const doorAmbientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclusion.jpg')
+const doorHeightTexture = textureLoader.load('/textures/door/height.jpg')
+const doorNormalTexture = textureLoader.load('/textures/door/normal.jpg')
+const doorMetalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
+const doorRoughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
 
 /**
  * House
@@ -41,7 +48,22 @@ roofRotationFolder.add(roof.rotation, 'y').min(-5).max(5).step(0.001)
 roofRotationFolder.add(roof.rotation, 'z').min(-5).max(5).step(0.001)
 
 /// Door
-const door = new THREE.Mesh(new THREE.BoxGeometry(1.4, 2, 0.2), new THREE.MeshBasicMaterial({ color: 0x4c2719 }))
+const door = new THREE.Mesh(
+  new THREE.PlaneGeometry(2, 2, 100, 100),
+  new THREE.MeshStandardMaterial({
+    transparent: true,
+    map: doorColorTexture,
+    alphaMap: doorAlphaTexture,
+    aoMap: doorAmbientOcclusionTexture,
+    displacementMap: doorHeightTexture,
+    displacementScale: 0.1,
+    normalMap: doorNormalTexture,
+    metalnessMap: doorMetalnessTexture,
+    roughnessMap: doorRoughnessTexture,
+  })
+)
+// it will emphasis the crevices -- darker to create contrast & dimension
+door.geometry.setAttribute('uv2', new THREE.Float32BufferAttribute(door.geometry.attributes.uv.array, 2))
 door.position.z = 1.5
 door.position.y = 1
 
@@ -172,7 +194,6 @@ doorLightPositionFolder.add(doorLight.position, 'z').min(-5).max(5).step(0.001)
  */
 const fog = new THREE.Fog('#262837', 1.7, 15)
 scene.fog = fog
-
 /**
  * Sizes
  */
