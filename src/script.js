@@ -33,6 +33,24 @@ const bricksAmbientOcclusionTexture = textureLoader.load('/bricks/door/ambientOc
 const bricksNormalTexture = textureLoader.load('/textures/bricks/normal.jpg')
 const bricksRoughnessTexture = textureLoader.load('/textures/bricks/roughness.jpg')
 
+const grassColorTexture = textureLoader.load('/textures/grass/color.jpg')
+const grassAmbientOcclusionTexture = textureLoader.load('/textures/grass/ambientOcclusion.jpg')
+const grassNormalTexture = textureLoader.load('/textures/grass/normal.jpg')
+const grassRoughnessTexture = textureLoader.load('/textures/grass/roughness.jpg')
+
+grassColorTexture.repeat.set(8, 8)
+grassColorTexture.wrapS = THREE.RepeatWrapping // x
+grassColorTexture.wrapT = THREE.RepeatWrapping // y
+grassAmbientOcclusionTexture.repeat.set(8, 8)
+grassAmbientOcclusionTexture.wrapS = THREE.RepeatWrapping // x
+grassAmbientOcclusionTexture.wrapT = THREE.RepeatWrapping // y
+grassNormalTexture.repeat.set(8, 8)
+grassNormalTexture.wrapS = THREE.RepeatWrapping // x
+grassNormalTexture.wrapT = THREE.RepeatWrapping // y
+grassRoughnessTexture.repeat.set(8, 8)
+grassRoughnessTexture.wrapS = THREE.RepeatWrapping // x
+grassRoughnessTexture.wrapT = THREE.RepeatWrapping // y
+
 /**
  * House
  */
@@ -151,7 +169,25 @@ scene.add(house)
 house.add(wall, roof, door, bush, bush2, bush3)
 
 // Floor
-const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.MeshStandardMaterial({ color: '#a9c388' }))
+// const grassColorTexture = textureLoader.load('/textures/grass/color.jpg')
+// const grassAmbientOcclusionTexture = textureLoader.load('/textures/grass/ambientOcclusion.jpg')
+// const grassNormalTexture = textureLoader.load('/textures/grass/normal.jpg')
+// const grassRoughnessTexture = textureLoader.load('/textures/grass/roughness.jpg')
+
+const floor = new THREE.Mesh(
+  new THREE.PlaneGeometry(20, 20),
+  new THREE.MeshStandardMaterial({
+    // color: '#a9c388',
+    map: grassColorTexture,
+    transparent: true,
+    aoMap: grassAmbientOcclusionTexture,
+    normalMap: grassNormalTexture,
+    roughnessMap: grassRoughnessTexture,
+  })
+)
+
+floor.geometry.setAttribute('uv2', new THREE.Float32BufferAttribute(floor.geometry.attributes.uv.array, 2))
+
 floor.rotation.x = -Math.PI * 0.5
 floor.position.y = 0
 scene.add(floor)
