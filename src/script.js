@@ -78,9 +78,9 @@ wall.geometry.setAttribute('uv2', new THREE.Float32BufferAttribute(wall.geometry
 wall.position.y = 1.5
 
 /// Roof
-const roof = new THREE.Mesh(new THREE.ConeGeometry(3, 1.5, 4), new THREE.MeshBasicMaterial({ color: 0x753e2a }))
+const roof = new THREE.Mesh(new THREE.ConeGeometry(3, 1.5, 4), new THREE.MeshBasicMaterial({ color: '#b35f45' }))
 roof.position.y = 3.5
-roof.rotateY(0.8)
+roof.rotateY(Math.PI / 4)
 roof.castShadow = true
 roof.receiveShadow = true
 
@@ -121,7 +121,7 @@ doorPositionFolder.add(door.position, 'z').min(-5).max(5).step(0.001)
 
 /// Bush
 const bushGeometry = new THREE.SphereGeometry(0.4, 32, 15)
-const bushMaterial = new THREE.MeshBasicMaterial({ color: 0x308230 })
+const bushMaterial = new THREE.MeshBasicMaterial({ color: '#89c854' })
 const bush = new THREE.Mesh(bushGeometry, bushMaterial)
 bush.castShadow = true
 bush.position.x = 1.074
