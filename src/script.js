@@ -23,13 +23,6 @@ const textureLoader = new THREE.TextureLoader()
 /**
  * House
  */
-// Temporary sphere
-// const sphere = new THREE.Mesh(
-//     new THREE.SphereGeometry(1, 32, 32),
-//     new THREE.MeshStandardMaterial({ roughness: 0.7 })
-// )
-// sphere.position.y = 1
-// scene.add(sphere)
 
 const wall = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 3), new THREE.MeshBasicMaterial({ color: 0x8baaad }))
 wall.position.y = 1.5
@@ -59,7 +52,9 @@ doorPositionFolder.add(door.position, 'y').min(-5).max(5).step(0.001)
 doorPositionFolder.add(door.position, 'z').min(-5).max(5).step(0.001)
 
 /// Bush
-const bush = new THREE.Mesh(new THREE.SphereGeometry(0.4, 32, 15), new THREE.MeshBasicMaterial({ color: 0x228c22 }))
+const bushGeometry = new THREE.SphereGeometry(0.4, 32, 15)
+const bushMaterial = new THREE.MeshBasicMaterial({ color: 0x228c22 })
+const bush = new THREE.Mesh(bushGeometry, bushMaterial)
 bush.position.x = 1.074
 bush.position.y = 0.027
 bush.position.z = 1.6
@@ -75,7 +70,7 @@ bushPositionFolder.add(bush.position, 'x').min(-5).max(5).step(0.001)
 bushPositionFolder.add(bush.position, 'y').min(-5).max(5).step(0.001)
 bushPositionFolder.add(bush.position, 'z').min(-5).max(5).step(0.001)
 
-const bush2 = new THREE.Mesh(new THREE.SphereGeometry(0.4, 32, 15), new THREE.MeshBasicMaterial({ color: 0x228c22 }))
+const bush2 = new THREE.Mesh(bushGeometry, bushMaterial)
 bush2.position.z = 1.728
 bush2.position.x = 0.681
 bush2.position.y = 0.04
@@ -93,7 +88,7 @@ bush2PositionFolder.add(bush2.position, 'x').min(-5).max(5).step(0.001)
 bush2PositionFolder.add(bush2.position, 'y').min(-5).max(5).step(0.001)
 bush2PositionFolder.add(bush2.position, 'z').min(-5).max(5).step(0.001)
 
-const bush3 = new THREE.Mesh(new THREE.SphereGeometry(0.4, 32, 15), new THREE.MeshBasicMaterial({ color: 0x228c22 }))
+const bush3 = new THREE.Mesh(bushGeometry, bushMaterial)
 bush3.position.z = 1.728
 bush3.position.x = -0.838
 bush3.position.y = 0.112
@@ -121,6 +116,27 @@ const floor = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), new THREE.MeshStan
 floor.rotation.x = -Math.PI * 0.5
 floor.position.y = 0
 scene.add(floor)
+
+/**
+ * Graves
+ */
+const graveGeometry = new THREE.BoxGeometry(0.5, 0.7, 0.2)
+const graveMaterial = new THREE.MeshBasicMaterial({ color: 0x0b3c49 })
+
+const graves = new THREE.Group()
+for (let i = 0; i < 50; i++) {
+  const grave = new THREE.Mesh(graveGeometry, graveMaterial)
+  grave.position.set((Math.random() - 0.5) * 15, 0.1, (Math.random() - 0.5) * 15)
+  grave.rotation.set(
+    (Math.random() - 0.5) * Math.PI * 0.5,
+    (Math.random() - 0.5) * Math.PI * 0.7,
+    (Math.random() - 0.5) * Math.PI * 0.2
+  )
+
+  graves.add(grave)
+}
+
+scene.add(graves)
 
 /**
  * Lights
