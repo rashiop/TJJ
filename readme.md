@@ -70,7 +70,8 @@ particlesMaterial.map = particleTexture
 PROBLEM with map: the front particles are hiding the back particles
 
 Solution
-
+- sol 1-3 No significant perf diff
+- sol 4 diff perf - diff effect - add color to prev
 ```js
 // Solution Default - Alphamap
 // particlesMaterial.map = particleTexture
@@ -84,6 +85,12 @@ particlesMaterial.alphaTest = 0.001
 particlesMaterial.depthTest = false
 // Solution 3 - DepthWrite
 particlesMaterial.depthWrite = false
+
+// Has performance diff from 1-3
+// Solution 4 - Blending
+particlesMaterial.depthWrite = false
+particlesMaterial.blending = THREE.AdditiveBlending
+
 ```
 #### Alphamap
 - `grayscale` texture that controls opacity (black: transparent; white: opaque)
@@ -123,25 +130,15 @@ particlesMaterial.depthWrite = false
 ![Screenshot 2022-10-04 at 15 48 01](https://user-images.githubusercontent.com/31156788/193776238-220fa73e-ec6e-405f-af1a-743402a4b813.png)
 
 
-In our case, this solution will fix the problem with almost no drawback. Sometimes, other objects might be drawn behind or in front of the particles depending on many factors like the transparency, in which order you added the objects to your scene, etc.
-
-
-We saw multiple techniques, and there is no perfect solution. You'll have to adapt and find the best combination according to the project.
-
-
-
-## Blending
-Currently, the WebGL draws the pixels one on top of the other.
-
-By changing the blending property, we can tell the WebGL not only to draw the pixel, but also to add the color of that pixel to the color of the pixel already drawn. That will have a saturation effect that can look amazing.
-
-To test that, simply change the blending property to `THREE.AdditiveBlending` (keep the depthWrite property)
-
-CONS: performance
-```js
-particlesMaterial.depthWrite = false
-particlesMaterial.blending = THREE.AdditiveBlending
-```
+Solution 1-3 has no drawback
+Fix:
+- the pixels drawn one on top of the other
+#### Blending
+Implemented with depthWrite
+Great for sparkle etc
+Fix: 
+- the pixels drawn one on top of the other
+- +add color of NEW pixel to the PREV... have saturation effect
 
 #### Different Colors
 We can have a different color for each particle. We first need to add a new attribute named color as we did for the position. A color is composed of red, green, and blue (3 values), so the code will be very similar to the position attribute. We can actually use the same loop for these two attributes:

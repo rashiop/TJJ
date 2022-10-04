@@ -41,25 +41,34 @@ const particle13Texture = textureLoader.load('/textures/particles/13.png')
 // radius, w subdiv, h subdiv
 const particlesGeometry = new THREE.BufferGeometry(1, 1, 4, 8)
 
-const count = 5000
+const count = 20000
+const colors = new Float32Array(count * 3)
 const positions = new Float32Array(count * 3)
 for (let i = 0; i < count * 3; i++) {
   // feels like in the middle
   positions[i] = (Math.random() - 0.5) * 10
+  colors[i] = Math.random()
 }
 
 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+
+// const cube = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial())
+// scene.add(cube)
 
 // 2. Material
 const particlesMaterial = new THREE.PointsMaterial({
-  size: 0.04,
+  size: 0.06,
   sizeAttenuation: true, // use perspective?
-  color: '#ff88cc',
+  // color: '#ff88cc',
   alphaMap: particle2Texture,
   // alphaTest: 0.001,
+  // depthTest: false,
+  depthWrite: false,
+  blending: THREE.AdditiveBlending,
 })
 particlesMaterial.transparent = true
-particlesMaterial.depthTest = false
+particlesMaterial.vertexColors = true
 
 // 3. Point
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
