@@ -92,6 +92,10 @@ particlesMaterial.depthWrite = false
     - activate transparent
 - Cons:
     - we can still see the edges
+    
+    ![Screenshot 2022-10-04 at 15 46 24](https://user-images.githubusercontent.com/31156788/193775863-387a0aba-d816-484b-af4f-10cce91d9e78.png)
+
+    
 #### alphaTest
 -  0..1, default 0 => pixel will be rendered
 - enables the WebGL to know when
@@ -99,17 +103,24 @@ particlesMaterial.depthWrite = false
 - Small value such as 0.001 => the pixel won't be rendered if the alpha is 0
 - Solve the edge problem
 
+![Screenshot 2022-10-04 at 15 46 51](https://user-images.githubusercontent.com/31156788/193775963-53968bc8-6f6b-49b9-bd62-3ec57d8d696b.png)
+
 #### depthTest
 - When drawing
 - the WebGL tests if what's being drawn is closer than what's already drawn
 - deactivating the depth testing might create bugs
     - IF other particles with different colors
     - Other particles might be drawn as if they were above 
+    
+    ![Screenshot 2022-10-04 at 15 47 15](https://user-images.githubusercontent.com/31156788/193776075-0ccf9417-da3e-4b0a-b2b4-b9f3c4b2545f.png)
+    ![Screenshot 2022-10-04 at 15 47 25](https://user-images.githubusercontent.com/31156788/193776107-cf75a368-446e-479b-9625-4abb3b71b400.png)
 
 #### depthWrite
 - Check if NEW closer than PREV
 - `depth buffer` stored depth of PREV
 - IF closer, dont add to `d b`
+
+![Screenshot 2022-10-04 at 15 48 01](https://user-images.githubusercontent.com/31156788/193776238-220fa73e-ec6e-405f-af1a-743402a4b813.png)
 
 
 In our case, this solution will fix the problem with almost no drawback. Sometimes, other objects might be drawn behind or in front of the particles depending on many factors like the transparency, in which order you added the objects to your scene, etc.
