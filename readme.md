@@ -1,8 +1,10 @@
 # Particles
 
 Used on stars, smoke, rain, dust, fire, etc
-PROS: We can have hundreds of thousands of particles on screen with reasonable frame rate (flyweight)
+PROS: We can have hundreds of thousands of particles on screen with reasonable frame rate (flyweight patterns)
 CONS: every particle composed of a plane (2 triangles) alwys facing the cam
+
+[particles-pack](https://www.kenney.nl/assets/particle-pack)
 
 What we need:
 1. `PointsMaterial` - handle particle
@@ -42,7 +44,7 @@ CustomGeometry
 // Geometry
 const particlesGeometry = new THREE.BufferGeometry()
 const count = 500
-
+// This is way faster than create object or array of array
 const positions = new Float32Array(count * 3) // Multiply by 3 because each position is composed of 3 values (x, y, z)
 
 for(let i = 0; i < count * 3; i++) // Multiply by 3 for same reason
@@ -77,20 +79,18 @@ particlesMaterial.alphaMap = particleTexture
 ```
 
 alphaTest
--  between 0 and 1 
-- enables the WebGL to know when not to render the pixel according to that pixel's transparency
-    - Default = 0 = the pixel will be rendered anyway
-    - Small value such as 0.001 => the pixel won't be rendered if the alpha is 0
+-  0..1, default 0 => pixel will be rendered
+- enables the WebGL to know when
+    - not to render the pixel according to that pixel's transparency
+- Small value such as 0.001 => the pixel won't be rendered if the alpha is 0
 
 
 depthTest
 - When drawing
 - the WebGL tests if what's being drawn is closer than what's already drawn
-- That is called depth testing and can be deactivated (you can comment the alphaTest)
 - deactivating the depth testing might create bugs
     - IF other particles with different colors
     - Other particles might be drawn as if they were above 
-
 
 ```js
 // particlesMaterial.alphaTest = 0.001

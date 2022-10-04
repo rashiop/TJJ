@@ -20,22 +20,53 @@ const scene = new THREE.Scene()
  */
 const textureLoader = new THREE.TextureLoader()
 
+const particle1Texture = textureLoader.load('/textures/particles/1.png')
+const particle2Texture = textureLoader.load('/textures/particles/2.png')
+const particle3Texture = textureLoader.load('/textures/particles/3.png')
+const particle4Texture = textureLoader.load('/textures/particles/4.png')
+const particle5Texture = textureLoader.load('/textures/particles/5.png')
+const particle6Texture = textureLoader.load('/textures/particles/6.png')
+const particle7Texture = textureLoader.load('/textures/particles/7.png')
+const particle8Texture = textureLoader.load('/textures/particles/8.png')
+const particle9Texture = textureLoader.load('/textures/particles/9.png')
+const particle10Texture = textureLoader.load('/textures/particles/10.png')
+const particle11Texture = textureLoader.load('/textures/particles/11.png')
+const particle12Texture = textureLoader.load('/textures/particles/12.png')
+const particle13Texture = textureLoader.load('/textures/particles/13.png')
+
 /*
  * Particles
  */
-// Geometry
+// 1. Geometry
 // radius, w subdiv, h subdiv
-const particlesGeometry = new THREE.SphereGeometry(1, 32, 32)
+const particlesGeometry = new THREE.BufferGeometry(1, 1, 4, 8)
 
-// Material
+const count = 5000
+const positions = new Float32Array(count * 3)
+for (let i = 0; i < count * 3; i++) {
+  // feels like in the middle
+  positions[i] = (Math.random() - 0.5) * 10
+}
+
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+
+// 2. Material
 const particlesMaterial = new THREE.PointsMaterial({
-  size: 0.02,
+  size: 0.04,
   sizeAttenuation: true, // use perspective?
+  color: '#ff88cc',
+  alphaMap: particle2Texture,
+  // alphaTest: 0.001,
 })
+particlesMaterial.transparent = true
+particlesMaterial.depthTest = false
 
-// Points
+// 3. Point
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 scene.add(particles)
+
+const point = gui.addFolder('Point')
+point.add(particlesMaterial, 'sizeAttenuation')
 
 /**
  * Sizes
