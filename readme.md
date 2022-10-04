@@ -66,47 +66,52 @@ const textureLoader = new THREE.TextureLoader()
 const particleTexture = textureLoader.load('/textures/particles/2.png')
 particlesMaterial.map = particleTexture
 ```
-Alphamap
-- PROBLEM with MAP: the front particles are hiding the back particles
+
+PROBLEM with map: the front particles are hiding the back particles
+
+Solution
+
+```js
+// Solution Default - Alphamap
+// particlesMaterial.map = particleTexture
+particlesMaterial.transparent = true
+particlesMaterial.alphaMap = particleTexture
+
+// Next, choose one of the solutions below
+// Solution 1 - AlphaTest
+particlesMaterial.alphaTest = 0.001
+// Solution 2 - DepthTest
+particlesMaterial.depthTest = false
+// Solution 3 - DepthWrite
+particlesMaterial.depthWrite = false
+```
+#### Alphamap
+- `grayscale` texture that controls opacity (black: transparent; white: opaque)
 - Solution
     - replace map to alphamap
     - activate transparent
-```js
-// particlesMaterial.map = particleTexture
-
-particlesMaterial.transparent = true
-particlesMaterial.alphaMap = particleTexture
-```
-
-alphaTest
+- Cons:
+    - we can still see the edges
+#### alphaTest
 -  0..1, default 0 => pixel will be rendered
 - enables the WebGL to know when
     - not to render the pixel according to that pixel's transparency
 - Small value such as 0.001 => the pixel won't be rendered if the alpha is 0
+- Solve the edge problem
 
-
-depthTest
+#### depthTest
 - When drawing
 - the WebGL tests if what's being drawn is closer than what's already drawn
 - deactivating the depth testing might create bugs
     - IF other particles with different colors
     - Other particles might be drawn as if they were above 
 
-```js
-// particlesMaterial.alphaTest = 0.001
-particlesMaterial.depthTest = false
-```
+#### depthWrite
+- Check if NEW closer than PREV
+- `depth buffer` stored depth of PREV
+- IF closer, dont add to `d b`
 
-depthWrite
-- WebGL is testing if what's being drawn is closer than what's already drawn
-- The depth of what's being drawn is stored in what we call a `depth buffer`
-- Instead of not testing if the particle is closer than what's in this depth buffer
-- we can tell the WebGL not to write particles in that depth buffer (you can comment the depthTest)
-```js
-// particlesMaterial.alphaTest = 0.001
-// particlesMaterial.depthTest = false
-particlesMaterial.depthWrite = false
-```
+
 In our case, this solution will fix the problem with almost no drawback. Sometimes, other objects might be drawn behind or in front of the particles depending on many factors like the transparency, in which order you added the objects to your scene, etc.
 
 
@@ -123,8 +128,6 @@ To test that, simply change the blending property to `THREE.AdditiveBlending` (k
 
 CONS: performance
 ```js
-// particlesMaterial.alphaTest = 0.001
-// particlesMaterial.depthTest = false
 particlesMaterial.depthWrite = false
 particlesMaterial.blending = THREE.AdditiveBlending
 ```
