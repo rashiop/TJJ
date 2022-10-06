@@ -20,7 +20,7 @@ Threejs Journey - Code along
 3. [haunted house](https://github.com/rashiop/TJJ/tree/14_haunted_house) - utilise basic + classic
     - my version on [vercel](https://tjj-y9zz-rashiop.vercel.app/)
 4. [particles](https://github.com/rashiop/TJJ/tree/15_particles) - cool effect stars smoke rain dust fire sparkles :D
-5. galaxy generator
+5. [galaxy generator](https://github.com/rashiop/TJJ/tree/16_galaxy_generator) - mixing color, create shape
 6. raycaster
 7. scroll based animation
 ### Advance Tech
