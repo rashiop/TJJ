@@ -1,6 +1,7 @@
 # Raycaster
 
 cast a ray in specific direction & test what objects intersect with it
+![Screenshot 2022-10-06 at 18 35 45](https://user-images.githubusercontent.com/31156788/194302652-166ef798-4f51-4796-8a80-63fac9c65c79.png)
 
 Usage:
 - detect wall in front of player
@@ -14,8 +15,14 @@ Step
 3. Cast a ray
   - `intersectObject(...)`
   - `intersectObjects(...)`
-4. Result
+  
+  ![Screenshot 2022-10-06 at 18 36 16](https://user-images.githubusercontent.com/31156788/194302761-68570bcb-e814-45d8-8879-e50490d9d4c5.png)
+  
+4. Result of intersection
   - always array cos 1 O can be passed >1 (eg torus)
+  
+  ![Screenshot 2022-10-06 at 18 36 43](https://user-images.githubusercontent.com/31156788/194302880-f9e48315-7d43-4e6c-8400-c0caa9cc55c5.png)
+
   - return
     - distance - origin vs collision point
     - face - face of geo hit by ray
