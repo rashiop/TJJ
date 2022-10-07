@@ -61,6 +61,102 @@ for(const intersect of intersects) {
 
 6. Usage with mouse
   - if O behind mouse / hovering
+  - Prereq:
+    - coordinate of mouse
+      X JS coord -> pixel
+      need value from `-1` to `1` in horizontal & vertical ax
+    - create a mouse
+      ```js
+        /**
+         * Mouse
+        */
+        const mouse = new THREE.Vector2()
+
+        window.addEventListener('mousemove', (event) => {
+            mouse.x = event.clientX / sizes.width * 2 - 1
+            mouse.y = - (event.clientY / sizes.height) * 2 + 1
+
+            console.log(mouse)
+        })
+      ```
   - Handle Hovering
-  - Hanlde Mouse enter and leave evt
-  
+    - WHY not `mousemove` evt?
+      might triggered > frame rate for some browser
+    - PROBLEM?
+      orientation
+      handled by? `setFromCamera`
+    ```js
+    const tick = () => {
+      /// orient the ray in the right direction
+      raycaster.setFromCamera(mouse, camera)
+      
+      const objectsToTest = [object1, object2, object3]
+      const intersects = raycaster.intersectObjects(objectsToTest)
+      
+      for(const intersect of intersects) {
+        intersect.object.material.color.set('#0000ff')
+      }
+
+      for(const object of objectsToTest) {
+        if(!intersects.find(intersect => intersect.object === object)) {
+          object.material.color.set('#ff0000')
+        }
+      }
+    }
+    ```
+  - Handle Mouse enter and leave evt
+    - WHY not `mouseenter` `mouseleave` etc
+      unsupported -> just DIY it :D
+
+    - mouseenter
+      1 object intersecting
+    - mouseleave
+      prev: intersect
+      now: no intersect
+      save currently intersecting O
+  ```js
+    let currentIntersect = null
+    const tick = () => {
+      raycaster.setFromCamera(mouse, camera)
+      const objectsToTest = [object1, object2, object3]
+      const intersects = raycaster.intersectObjects(objectsToTest)
+
+      if (intersects.length) {
+        if (!currentIntersect) {
+          console.log('mouse enter')
+        }
+
+        currentIntersect = intersects[0]
+      } else {
+        if (currentIntersect) {
+          console.log('mouse leave')
+        }
+
+        currentIntersect = null
+      }
+    }
+  ```
+  - MouseClick evt
+    - just listen to `click` 
+    - prereq mouseintersect
+      ```js
+      
+      window.addEventListener('click', () => {
+        if (currentIntersect) {
+          switch (currentIntersect.object) {
+            case object1:
+              console.log('click on object 1')
+              break
+
+            case object2:
+              console.log('click on object 2')
+              break
+
+            case object3:
+              console.log('click on object 3')
+              break
+          }
+        }
+      })
+      ```
+
