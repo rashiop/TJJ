@@ -73,12 +73,22 @@ for(const intersect of intersects) {
         const mouse = new THREE.Vector2()
 
         window.addEventListener('mousemove', (event) => {
-            mouse.x = event.clientX / sizes.width * 2 - 1
-            mouse.y = - (event.clientY / sizes.height) * 2 + 1
+          // normalize the value 0..1
+          mouse.x = event.clientX / sizes.width * 2 - 1
+          // normalize the value 1..0
+          mouse.y = - (event.clientY / sizes.height) * 2 + 1
 
-            console.log(mouse)
+          console.log(mouse)
         })
       ```
+    - create a witness
+    - create the event
+      - mouseenter
+        1 object intersecting
+      - mouseleave
+        prev: intersect
+        now: no intersect
+    - HOW  save currently intersecting
   - Handle Hovering
     - WHY not `mousemove` evt?
       might triggered > frame rate for some browser
@@ -107,13 +117,6 @@ for(const intersect of intersects) {
   - Handle Mouse enter and leave evt
     - WHY not `mouseenter` `mouseleave` etc
       unsupported -> just DIY it :D
-
-    - mouseenter
-      1 object intersecting
-    - mouseleave
-      prev: intersect
-      now: no intersect
-      save currently intersecting O
   ```js
     let currentIntersect = null
     const tick = () => {

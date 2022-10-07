@@ -33,14 +33,6 @@ scene.add(object1, object2, object3)
  */
 const raycaster = new THREE.Raycaster()
 
-const rayOrigin = new THREE.Vector3(-3, 0, 0)
-const rayDirection = new THREE.Vector3(1, 0, 0)
-rayDirection.normalize()
-
-raycaster.set(rayOrigin, rayDirection)
-
-const intersects = raycaster.intersectObjects([object1, object2, object3])
-console.log(intersects)
 /**
  * Sizes
  */
@@ -61,6 +53,36 @@ window.addEventListener('resize', () => {
   // Update renderer
   renderer.setSize(sizes.width, sizes.height)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+})
+
+/**
+ * Mouse
+ */
+const mouse = new THREE.Vector2()
+
+window.addEventListener('mousemove', (evt) => {
+  // normalize the value 0..1
+  mouse.x = (evt.clientX / sizes.width) * 2 - 1
+  // normalize the value 1..0
+  mouse.y = -(evt.clientY / sizes.height) * 2 + 1
+})
+
+window.addEventListener('click', (evt) => {
+  if (currentIntersect) {
+    switch (currentIntersect.object) {
+      case object1:
+        console.log('o1 clicked')
+        break
+      case object2:
+        console.log('o2 clicked')
+        break
+      case object3:
+        console.log('o3 clicked')
+        break
+      default:
+        break
+    }
+  }
 })
 
 /**
@@ -89,8 +111,49 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  */
 const clock = new THREE.Clock()
 
+let currentIntersect = null
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
+
+  // Animate objects
+  object1.position.y = Math.sin(elapsedTime * 0.3) * 1.5
+  object2.position.y = Math.sin(elapsedTime * 0.8) * 1.5
+  object3.position.y = Math.sin(elapsedTime * 1.5) * 1.5
+
+  // Cast a ray
+  // instead of set origin & direction then normalize
+  raycaster.setFromCamera(mouse, camera)
+  // const rayOrigin = new THREE.Vector3(-3, 0, 0)
+  // const rayDirection = new THREE.Vector3(1, 0, 0)
+  // rayDirection.normalize()
+
+  // raycaster.set(rayOrigin, rayDirection)
+
+  const objectsToTest = [object1, object2, object3]
+  // calc O intersecting the picking ray
+  const intersects = raycaster.intersectObjects(objectsToTest)
+
+  for (const object of objectsToTest) {
+    object.material.color = new THREE.Color('#ff0000')
+  }
+
+  for (const intersect of intersects) {
+    intersect.object.material.color.set('#0000ff')
+  }
+
+  if (intersects.length) {
+    if (!currentIntersect) {
+      console.log('mouse enter')
+    }
+
+    currentIntersect = intersects[0]
+  } else {
+    if (currentIntersect) {
+      console.log('mouse leave')
+    }
+
+    currentIntersect = null
+  }
 
   // Update controls
   controls.update()
