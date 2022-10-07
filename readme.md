@@ -1,2 +1,1 @@
-## What 
-Threejs Journey - Code along
+# Scroll based animation
