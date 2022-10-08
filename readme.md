@@ -54,4 +54,22 @@ Steps
       cursor.x = evt.clientX / sizes.width - 0.5
       cursor.y = evt.clientX / sizes.height - 0.5
     })
+
+
+    const tick = () =>{
+        // ...
+
+        // Animate camera
+        camera.position.y = - scrollY / sizes.height * objectsDistance
+
+        const parallaxX = cursor.x * 0.5
+        // y up = +, down = -
+        const parallaxY = -cursor.y * 0.5
+        // smoothing move 
+        cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 5 * deltaTime
+        cameraGroup.position.y += (parallaxY - cameraGroup.position.y) * 5 * deltaTime
+
+        // ...
+    }
   ```
+  - 

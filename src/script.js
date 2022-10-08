@@ -65,6 +65,40 @@ torusKnot.scale.set(0.5, 0.5, 0.5)
 scene.add(torus, cone, torusKnot)
 
 /**
+ * Particles
+ */
+parameters.particleSize = 0.02
+parameters.particleColor = '#ff0000'
+parameters.particleCount = 5000
+
+const generateParticle = () => {
+  const positions = new Float32Array(parameters.particleCount * 3)
+  for (let i = 0; i < parameters.particleCount * 3; i++) {
+    positions[i * 3 + 0] = (Math.random() - 0.5) * 20
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 20
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 20
+  }
+
+  const particlesGeometry = new THREE.BufferGeometry()
+  particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+
+  const pointMaterial = new THREE.PointsMaterial({
+    size: parameters.particleSize,
+    sizeAttenuation: true,
+    color: parameters.particleColor,
+    depthWrite: false,
+  })
+
+  const particles = new THREE.Points(particlesGeometry, pointMaterial)
+  scene.add(particles)
+}
+
+generateParticle()
+
+gui.add(parameters, 'particleSize').min(0.001).max(2).step(0.001).onFinishChange(generateParticle)
+gui.addColor(parameters, 'particleColor').onFinishChange(generateParticle)
+
+/**
  * Sizes
  */
 const sizes = {
@@ -89,9 +123,14 @@ window.addEventListener('resize', () => {
 /**
  * Camera
  */
+// Group
+const cameraGroup = new THREE.Group()
+scene.add(cameraGroup)
+
 // Base camera
 const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 100)
 camera.position.z = 6
+cameraGroup.add(camera)
 scene.add(camera)
 
 /**
@@ -130,9 +169,12 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Animate
  */
 const clock = new THREE.Clock()
+let previousTime = 0
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
+  const deltaTime = elapsedTime - previousTime
+  previousTime = elapsedTime
 
   // Render
   for (const mesh of objects) {
@@ -142,6 +184,11 @@ const tick = () => {
 
   // Animate camera
   camera.position.y = (-scrollY / sizes.height) * objectsDistance
+
+  const parallaxX = cursor.x * 0.5
+  const parallaxY = -cursor.y * 0.5
+  camera.position.x += (parallaxX - cameraGroup.position.x) * 5 * deltaTime
+  camera.position.y += (parallaxY - cameraGroup.position.y) * 5 * deltaTime
 
   renderer.render(scene, camera)
 
