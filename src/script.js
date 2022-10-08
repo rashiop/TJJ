@@ -13,6 +13,7 @@ const parameters = {
 
 gui.addColor(parameters, 'materialColor').onChange(() => {
   material.color.set(parameters.materialColor)
+  particlesMaterial.color.set(parameters.materialColor)
 })
 
 /**
@@ -41,6 +42,14 @@ const material = new THREE.MeshToonMaterial({
   gradientMap: gradientTexture,
 })
 
+parameters.particleSize = 0.03
+const particlesMaterial = new THREE.PointsMaterial({
+  size: parameters.particleSize,
+  sizeAttenuation: true,
+  // color: parameters.materialColor,
+  depthWrite: false,
+})
+
 /**
  * Objects
  */
@@ -66,36 +75,35 @@ scene.add(torus, cone, torusKnot)
 /**
  * Particles
  */
-parameters.particleSize = 0.02
-parameters.particleColor = '#ff0000'
-parameters.particleCount = 5000
+parameters.particleCount = 2000
+
+let particles = null
+let particlesGeometry = null
 
 const generateParticle = () => {
+  if (particles !== null) {
+    particlesGeometry.dispose()
+    particlesMaterial.dispose()
+    scene.remove(particles)
+  }
   const positions = new Float32Array(parameters.particleCount * 3)
   for (let i = 0; i < parameters.particleCount * 3; i++) {
     positions[i * 3 + 0] = (Math.random() - 0.5) * 20
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 20
+    positions[i * 3 + 1] = objectsDistance * 0.6 - Math.random() * objectsDistance * 3
     positions[i * 3 + 2] = (Math.random() - 0.5) * 20
   }
 
-  const particlesGeometry = new THREE.BufferGeometry()
+  particlesGeometry = new THREE.BufferGeometry()
   particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
 
-  const pointMaterial = new THREE.PointsMaterial({
-    size: parameters.particleSize,
-    sizeAttenuation: true,
-    color: parameters.particleColor,
-    depthWrite: false,
-  })
-
-  const particles = new THREE.Points(particlesGeometry, pointMaterial)
+  particles = new THREE.Points(particlesGeometry, particlesMaterial)
   scene.add(particles)
 }
 
 generateParticle()
 
 gui.add(parameters, 'particleSize').min(0.001).max(2).step(0.001).onFinishChange(generateParticle)
-gui.addColor(parameters, 'particleColor').onFinishChange(generateParticle)
+gui.add(parameters, 'particleCount').min(300).max(100000).step(100).onFinishChange(generateParticle)
 
 /**
  * Sizes
@@ -171,6 +179,7 @@ let previousTime = 0
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime()
+  // it will be based on cpu speed
   const deltaTime = elapsedTime - previousTime
   previousTime = elapsedTime
 
