@@ -22,7 +22,7 @@ Threejs Journey - Code along
 4. [particles](https://github.com/rashiop/TJJ/tree/15_particles) - cool effect stars smoke rain dust fire sparkles :D
 5. [galaxy generator](https://github.com/rashiop/TJJ/tree/16_galaxy_generator) - mixing color, create shape
 6. [raycaster](https://github.com/rashiop/TJJ/tree/17_raycaster) - test object intersect - detect wall, laser gun, simulate mouse event
-7. scroll based animation
+7. [scroll-based-animation](https://github.com/rashiop/TJJ/tree/18_scroll-based-animation)
 ### Advance Tech
 ### Shaders
 ### Extra
