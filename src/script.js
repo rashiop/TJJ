@@ -33,7 +33,6 @@ scene.add(directionalLight)
 const textureLoader = new THREE.TextureLoader()
 
 const gradientTexture = textureLoader.load('textures/gradients/3.jpg')
-gradientTexture.minFilter = THREE.NearestFilter
 gradientTexture.magFilter = THREE.NearestFilter
 
 /** Material */
@@ -131,7 +130,6 @@ scene.add(cameraGroup)
 const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 100)
 camera.position.z = 6
 cameraGroup.add(camera)
-scene.add(camera)
 
 /**
  * Scroll
@@ -151,7 +149,7 @@ cursor.y = 0
 
 window.addEventListener('mousemove', (evt) => {
   cursor.x = evt.clientX / sizes.width - 0.5
-  cursor.y = evt.clientX / sizes.height - 0.5
+  cursor.y = evt.clientY / sizes.height - 0.5
 })
 
 /**
@@ -176,7 +174,7 @@ const tick = () => {
   const deltaTime = elapsedTime - previousTime
   previousTime = elapsedTime
 
-  // Render
+  // Animate mesh
   for (const mesh of objects) {
     mesh.rotation.x = elapsedTime * 0.1
     mesh.rotation.y = elapsedTime * 0.12
@@ -187,8 +185,8 @@ const tick = () => {
 
   const parallaxX = cursor.x * 0.5
   const parallaxY = -cursor.y * 0.5
-  camera.position.x += (parallaxX - cameraGroup.position.x) * 5 * deltaTime
-  camera.position.y += (parallaxY - cameraGroup.position.y) * 5 * deltaTime
+  cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 5 * deltaTime
+  cameraGroup.position.y += (parallaxY - cameraGroup.position.y) * 5 * deltaTime
 
   renderer.render(scene, camera)
 
