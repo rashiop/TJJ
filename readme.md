@@ -19,7 +19,7 @@
   - 2D sometimes enough, [examples](http://letsplay.ouigo.com/)
 - 3D
   - [Ammo.js](http://schteppe.github.io/ammo.js-demos/) -- most common
-  - [Cannon.js](https://schteppe.github.io/cannon.js/)
+  - [Cannon.js](https://schteppe.github.io/cannon.js/) [docs](http://schteppe.github.io/cannon.js/docs/)
   - [Oimo.js](https://lo-th.github.io/Oimo.js/#basic)
 - 2D
   - similar with 3D, but diff axes to update
@@ -32,18 +32,57 @@
 ## Cannon.js
 1. Create a world (like sphere)
 2. Create a body (like mesh)
+  - define material
+  - define ContactMaterial (wat if 2 type collides) & add to world
+  - used the material in body 
+  - we can use 1 default material
+3. Opt - create a body for ground (plane infinite size) 
+4. Update physic world
+  - fixed time step 1/60 (60fps)
+  - time passed after last step 
+  - no of iteration world can apply to catch up w/ potential delay
+5. Set position of threejs world to physic body position
+
+
 ```js
 // World
-const world = new CANNON.world()
+const world = new CANNON.World()
 world.gravity.set(0, -9.82, 0) // we are using earth gravity
 
+// Material
+const plasticMaterial = new CANNON.Material('plastic')
+const concreteMaterial = new CANNON.Material('concrete')
+const concretePlasticContactMaterial = new CANNON.ContactMaterial(plasticMaterial, concreteMaterial, {
+  friction: 0.1, // slow it down
+  restitution: 0.7, // how bouncy it will
+})
+world.addContactMaterial(concretePlasticContactMaterial)
+
 // Body
+// Sphere
 const sphereShape = new CANNON.Sphere(0.5)
 const sphereBody = new CANNON.Body({
   mass: 1, // the heavier the greater impact
   position: new CANNON.Vec3(0, 3, 0), // we want to make it fall :))
   shape: sphereShape,
+  material: plasticMaterial,
 })
 world.addBody(sphereBody)
+
+// Floor
+const floorShape = new CANNON.Plane()
+const floorBody = new CANNON.Body({
+  mass: 0, // static
+  shape: floorShape,
+  material: concreteMaterial,
+})
+floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI * 0.5)
+world.addBody(floorBody)
+...
+
+const tick = () => {
+  // update physic world
+  world.step()
+}
 
 ```
