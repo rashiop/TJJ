@@ -1,8 +1,8 @@
 # Particles
 
 Used on stars, smoke, rain, dust, fire, etc
-PROS: We can have hundreds of thousands of particles on screen with reasonable frame rate (flyweight patterns)
-CONS: every particle composed of a plane (2 triangles) alwys facing the cam
+- PROS: We can have hundreds of thousands of particles on screen with reasonable frame rate (flyweight patterns)
+- CONS: every particle composed of a plane (2 triangles) alwys facing the cam
 
 [particles-pack](https://www.kenney.nl/assets/particle-pack)
 
