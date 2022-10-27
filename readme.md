@@ -24,5 +24,6 @@ Threejs Journey - Code along
 6. [raycaster](https://github.com/rashiop/TJJ/tree/17_raycaster) - test object intersect - detect wall, laser gun, simulate mouse event
 7. [scroll-based-animation](https://github.com/rashiop/TJJ/tree/18_scroll-based-animation)
 ### Advance Tech
+1. [physics](https://github.com/rashiop/TJJ/tree/19_physics) - add effect like collision, bouncing etc
 ### Shaders
 ### Extra
