@@ -45,13 +45,12 @@ const world = new CANNON.World()
 world.gravity.set(0, -9.82, 0) // we are using earth gravity
 
 // Material
-const plasticMaterial = new CANNON.Material('plastic')
-const concreteMaterial = new CANNON.Material('concrete')
-const concretePlasticContactMaterial = new CANNON.ContactMaterial(plasticMaterial, concreteMaterial, {
+const defaultMaterial = new CANNON.Material('default')
+const defaultContactMaterial = new CANNON.ContactMaterial(defaultMaterial, defaultMaterial, {
   friction: 0.1, // slow it down
-  restitution: 0.8, // how bouncy it will
+  restitution: 0.6, // how bouncy it will
 })
-world.addContactMaterial(concretePlasticContactMaterial)
+world.defaultContactMaterial = defaultContactMaterial
 
 // Body
 // Sphere
@@ -60,7 +59,6 @@ const sphereBody = new CANNON.Body({
   mass: 1, // the heavier the greater impact
   position: new CANNON.Vec3(0, 3, 0), // we want to make it fall :))
   shape: sphereShape,
-  material: plasticMaterial,
 })
 world.addBody(sphereBody)
 
@@ -69,7 +67,6 @@ const floorShape = new CANNON.Plane()
 const floorBody = new CANNON.Body({
   mass: 0, // static
   shape: floorShape,
-  material: concreteMaterial,
 })
 floorBody.quaternion.setFromAxisAngle(new CANNON.Vec3(-1, 0, 0), Math.PI * 0.5)
 world.addBody(floorBody)
