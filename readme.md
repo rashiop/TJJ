@@ -133,6 +133,7 @@ const tick = () => {
     // Update physic worlds
   for (const object of objectsToUpdate) {
     object.mesh.position.copy(object.body.position)
+    object.mesh.quarternion.copy(object.body.quarternion)
   }
   // elapsed time, how much the time has passed, how many iteration for the threejs to catchup
   world.step(1 / 60, deltaTime, 3)

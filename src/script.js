@@ -16,8 +16,16 @@ debugObject.createSphere = () => {
     z: (Math.random() - 0.5) * 3,
   })
 }
-
 gui.add(debugObject, 'createSphere')
+
+debugObject.createBoxes = () => {
+  createBoxes(Math.random(), Math.random(), Math.random(), {
+    x: (Math.random() - 0.5) * 3,
+    y: (Math.random() - 0.5) * 3,
+    z: (Math.random() - 0.5) * 3,
+  })
+}
+gui.add(debugObject, 'createBoxes')
 
 /**
  * Base
@@ -156,6 +164,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Utils
  */
 const objectsToUpdate = []
+
+// sphere
 const sphereGeometry = new THREE.SphereGeometry(1, 20, 20)
 const sphereMaterial = new THREE.MeshStandardMaterial({
   envMap: environmentMapTexture,
@@ -163,6 +173,7 @@ const sphereMaterial = new THREE.MeshStandardMaterial({
   roughness: 0.4,
 })
 const createSphere = (radius, position) => {
+  // Three.js mesh
   const mesh = new THREE.Mesh(sphereGeometry, sphereMaterial)
   mesh.scale.set(radius, radius, radius)
   mesh.castShadow = true
@@ -183,6 +194,34 @@ const createSphere = (radius, position) => {
 }
 createSphere(0.5, { x: 0, y: 3, z: 0 })
 
+// boxes
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+const boxMaterial = new THREE.MeshStandardMaterial({
+  envMap: environmentMapTexture,
+  metalness: 0.3,
+  roughness: 0.3,
+})
+const createBoxes = (width, height, depth, position) => {
+  // Three.js mesh
+  const mesh = new THREE.Mesh(boxGeometry, boxMaterial)
+  mesh.scale.set(width, height, depth)
+  mesh.castShadow = true
+  mesh.position.copy(position)
+  scene.add(mesh)
+
+  const body = new CANNON.Body({
+    mass: 1,
+    position: position,
+    // canon box start from center
+    shape: new CANNON.Box(new CANNON.Vec3(width * 0.5, height * 0.5, depth * 0.5)),
+    material: defaultMaterial,
+  })
+
+  world.add(body)
+
+  // save to objectsToUpdate
+  objectsToUpdate.push({ mesh, body })
+}
 /**
  * Animate
  */
@@ -197,6 +236,7 @@ const tick = () => {
   // Update physic worlds
   for (const object of objectsToUpdate) {
     object.mesh.position.copy(object.body.position)
+    object.mesh.quaternion.copy(object.body.quaternion)
   }
   // elapsed time, how much the time has passed, how many iteration for the threejs to catchup
   world.step(1 / 60, deltaTime, 3)
