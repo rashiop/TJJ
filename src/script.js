@@ -27,6 +27,18 @@ debugObject.createBoxes = () => {
 }
 gui.add(debugObject, 'createBoxes')
 
+debugObject.reset = () => {
+  for (const object of objectsToUpdate) {
+    // remove body
+    object.body.removeEventListener('collide', playHitSound)
+    world.removeBody(object.body)
+    // remove mesh
+    scene.remove(object.mesh)
+  }
+  objectsToUpdate.splice(0, objectsToUpdate.length)
+}
+gui.add(debugObject, 'reset')
+
 /**
  * Base
  */
@@ -35,6 +47,19 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+
+/**
+ * Sound
+ */
+const hitSound = new Audio('/sounds/hit.mp3')
+const playHitSound = (collision) => {
+  const impactStrength = collision.contact.getImpactVelocityAlongNormal()
+  if (impactStrength > 1.5) {
+    hitSound.volume = Math.ceil((Math.random() * impactStrength) / 10)
+    hitSound.currentTime = 0
+    hitSound.play()
+  }
+}
 
 /**
  * Textures
@@ -62,7 +87,7 @@ const environmentMapTexture = cubeTextureLoader.load([
 const world = new CANNON.World()
 world.broadphase = new CANNON.SAPBroadphase(world) // better perf collision
 world.gravity.set(0, -9.82, 0) // we are using earth gravity
-world.allowSleep = true // if not moving, just sleep hehe
+world.allowSleep = true // if not moving, just sleep
 
 // Material
 const defaultMaterial = new CANNON.Material('default')
@@ -189,6 +214,7 @@ const createSphere = (radius, position) => {
     shape: new CANNON.Sphere(radius),
     material: defaultMaterial,
   })
+  body.addEventListener('collide', playHitSound)
   world.addBody(body)
 
   // save to objectsToUpdate
@@ -218,7 +244,7 @@ const createBoxes = (width, height, depth, position) => {
     shape: new CANNON.Box(new CANNON.Vec3(width * 0.5, height * 0.5, depth * 0.5)),
     material: defaultMaterial,
   })
-
+  body.addEventListener('collide', playHitSound)
   world.add(body)
 
   // save to objectsToUpdate
