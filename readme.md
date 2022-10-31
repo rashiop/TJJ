@@ -42,7 +42,59 @@
   - time passed after last step 
   - no of iteration world can apply to catch up w/ potential delay
 5. Set position of threejs world to physic body position
+6. Apply Forces
+  -  ways
+      - applyForce - apply force to body from a specified point in space 
+      - [applyLocalForce](https://schteppe.github.io/cannon.js/docs/classes/Body.html#method_applyLocalForce) - same w/ AF
+          - but coordinates local to the body
+          - 0,0,0 would be center of the body
+      - applyImpulse
+         - instead of adding force to change velocity (AF)
+         - applies directly to velocity
+      - applyLocalImpulse - same w/ AI, but coordinates are local to the body
 
+#### Handle multiple object
+1. Automate w/ functions
+2. Use an array of objects
+3. Optimize
+
+#### Performance Opt
+1. Broadphase
+When testing the collisions between objects, a naive approach is testing every Body against every other Body. While this is easy to do, it's costly in terms of performance.
+
+That is where broadphase comes up. The broadphase is doing a rough sorting of the Bodies before testing them. Imagine having two piles of boxes far from each other. Why would you test the boxes from one pile against the boxes in the other pile? They are too far to be colliding.
+
+There are 3 broadphase algorithms available in Cannon.js:
+
+NaiveBroadphase: Tests every Bodies against every other Bodies
+GridBroadphase: Quadrilles the world and only tests Bodies against other Bodies in the same grid box or the neighbors' grid boxes.
+SAPBroadphase (Sweep and prune broadphase): Tests Bodies on arbitrary axes during multiples steps.
+The default broadphase is NaiveBroadphase, and I recommend you to switch to SAPBroadphase. Using this broadphase can eventually generate bugs where a collision doesn't occur, but it's rare, and it involves doing things like moving Bodies very fast.
+
+To switch to SAPBroadphase, simply instantiate it in the world.broadphase property and also use this same world as parameter:
+
+
+2. Sleep
+
+#### Events
+
+#### Go further
+1. Constraint
+  - HingeConstraint: acts like a door hinge
+  - DistanceConstraint: forces the bodies to keep a distance between each other
+  - LockConstraint: merge the bodies like if they were 1 piece
+  - PointToPointConstraint: glues the bodies to a specific point
+2. Classes, methods, properties, events
+3. Workers
+  - physiscs simulation takes time
+  - three & cannon, logic in the same thread in our CPU 🫣
+  - quickly overload if too much => frame rate drop
+  - SOOOO....
+    - spread the load in a diff thread
+    - perf improvement
+ 4. Cannon-es
+  - cannon.js hasnt updated for years
+  - ver maintained of cannon
 
 ```js
 // World
@@ -86,3 +138,4 @@ const tick = () => {
 }
 
 ```
+
