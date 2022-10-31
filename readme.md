@@ -155,10 +155,17 @@ The default broadphase is NaiveBroadphase, and I recommend you to switch to SAPB
 
 To switch to SAPBroadphase, simply instantiate it in the world.broadphase property and also use this same world as parameter:
 
+```js
+world.broadphase = new CANNON.SAPBroadphase(world)
+```
 
 2. Sleep
-
-#### Events
+- When the body stop moving
+- Broadphasing alg is no longer needed
+- happened per body... the body that still moving not sleeping, vice versa
+```js
+world.allowSleep = true
+```
 
 #### Go further
 1. Constraint
