@@ -25,6 +25,7 @@ Threejs Journey - Code along
 7. [scroll-based-animation](https://github.com/rashiop/TJJ/tree/18_scroll-based-animation)
 ### Advance Tech
 1. [physics](https://github.com/rashiop/TJJ/tree/19_physics) - add effect like collision, bouncing etc
+2. [imported model](https://github.com/rashiop/TJJ/tree/20_imported_model)
 ### Shaders
 ### Extra
 ### Portal
