@@ -40,6 +40,7 @@ const environmentMap = cubeTextureLoader.load([
   '/textures/environmentMaps/0/pz.jpg',
   '/textures/environmentMaps/0/nz.jpg',
 ])
+environmentMap.encoding = THREE.sRGBEncoding
 
 scene.background = environmentMap
 
@@ -127,7 +128,11 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 renderer.physicallyCorrectLights = true
+
 gui.add(renderer, 'physicallyCorrectLights', 'boolean')
+
+renderer.outputEncoding = THREE.sRGBEncoding
+
 /**
  * Animate
  */
