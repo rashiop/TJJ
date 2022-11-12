@@ -57,4 +57,45 @@ scene.background = environmentMapTexutre
   - THREE.CineonToneMapping
   - THREE.ACESFilmicToneMapping
 - antialiasing
+  - stair-like effect on the edge of geometrics
+  - cos renderer choose whether geo is in the pixel or not
+  <img width="293" alt="Screenshot 2022-11-12 at 18 55 17" src="https://user-images.githubusercontent.com/103398328/201472792-ac62d500-b2e8-4e07-9dc0-367197cda43d.png">
+  - solve? 
+    - increase render resolution to double
+    - each pixel will avg from 4 px rendererd
+    - SSAA (Super sampling) or FSAA (Fullscreen sampling), easy & efficient & not performance :((
+    - MSAA (multi sampling) like SSAA & FSAA but only on geo edges -> better perf 
+    <img width="83" alt="Screenshot 2022-11-12 at 18 58 59" src="https://user-images.githubusercontent.com/103398328/201472898-4f99c1df-9473-4693-b9e5-d5d49805cab2.png">
+    ```js
+    const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true
+    })
+    ```
+ - note
+   - px ratio > 1 X need antialias
+   - best solution px ratio == 1 & antialias
 6. shadows
+  - change to `THREE.PCFSoftShadowMap`
+  ```js
+  renderer.shadowMap.enabled = true
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  ```
+  - activate directional light
+  ```js
+  directionalLight.castShadow = true
+  const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+  scene.add(directionalLightCameraHelper)
+  
+  directionalLight.shadow.camera.far = 15
+  directionalLight.shadow.mapSize.set(1024, 1024)
+  ```
+  - cast to all material
+  ```js
+  updateAllMaterials = () => {
+    ...
+    child.castShadow = true
+    child.receiveShadow = true
+    ...
+  }
+  ```
