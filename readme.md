@@ -99,3 +99,15 @@ scene.background = environmentMapTexutre
     ...
   }
   ```
+  
+  7. Shadow acne
+    - the burger cast shadow to itself
+  <img width="490" alt="Screenshot 2022-11-12 at 19 18 16" src="https://user-images.githubusercontent.com/103398328/201473526-f0da8466-e78f-4eda-b481-0eb6602ff6aa.png">
+    - fix
+      - tweak bias & normalBias
+      - bias -> for flat surface -> increase it until the acne disappears
+      - normal bias -> for rounded surface -> increase it until the acne disappears
+     ```js
+     directionalLight.shadow.normalBias = 0.05
+     ```
+  
