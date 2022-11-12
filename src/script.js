@@ -25,6 +25,9 @@ const updateAllMaterials = () => {
     if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
       child.material.envMap = environmentMap
       child.material.envMapIntensity = debugObject.envMapIntensity
+
+      child.castShadow = true
+      child.receiveShadow = true
     }
   })
 }
@@ -85,6 +88,13 @@ gui.add(directionalLight.position, 'x').min(-5).max(5).step(0.001).name('lightX'
 gui.add(directionalLight.position, 'y').min(-5).max(5).step(0.001).name('lightY')
 gui.add(directionalLight.position, 'z').min(-5).max(5).step(0.001).name('lightZ')
 
+directionalLight.castShadow = true
+// const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+// scene.add(directionalLightCameraHelper)
+
+directionalLight.shadow.camera.far = 15
+directionalLight.shadow.mapSize.set(1024, 1024)
+
 /**
  * Sizes
  */
@@ -124,6 +134,7 @@ controls.enableDamping = true
  */
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
+  antialias: true,
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
@@ -143,6 +154,9 @@ gui.add(renderer, 'toneMapping', {
   ACESFilmic: THREE.ACESFilmicToneMapping,
 })
 gui.add(renderer, 'toneMappingExposure').min(0).max(10).step(0.001)
+
+renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFShadowMap
 
 /**
  * Animate
