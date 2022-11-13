@@ -3,9 +3,12 @@ import * as THREE from 'three'
 import Sizes from './utils/sizes'
 import Time from './utils/time'
 
-import Camera from './camera'
-import Renderer from './renderer'
-import World from './world/world'
+import Camera from './Camera'
+import Renderer from './Renderer'
+import World from './world/World'
+import Resources from './utils/resources'
+
+import sources from './sources'
 
 // create a singleton
 let instance = null
@@ -27,6 +30,7 @@ export default class Experience {
     this.sizes = new Sizes()
     this.time = new Time()
     this.scene = new THREE.Scene()
+    this.resources = new Resources()
     this.camera = new Camera()
     this.renderer = new Renderer()
     this.world = new World()

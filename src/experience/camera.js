@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-import Experience from './experience'
+import Experience from './Experience'
 
 export default class Camera {
   constructor() {
