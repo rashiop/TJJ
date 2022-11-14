@@ -1,12 +1,12 @@
 import * as THREE from 'three'
 
+import Debug from './utils/Debug'
 import Sizes from './utils/Sizes'
 import Time from './utils/Time'
 
 import Camera from './Camera'
 import Renderer from './Renderer'
 
-import Fox from './world/Fox'
 import World from './world/World'
 import Resources from './utils/Resources'
 
@@ -29,6 +29,7 @@ export default class Experience {
     this.canvas = canvas
 
     // setup
+    this.debug = new Debug()
     this.sizes = new Sizes()
     this.time = new Time()
     this.scene = new THREE.Scene()
@@ -36,7 +37,6 @@ export default class Experience {
     this.camera = new Camera()
     this.renderer = new Renderer()
     this.world = new World()
-    this.fox = new Fox()
 
     // Resize event
     this.sizes.on('resize', () => {
@@ -57,5 +57,41 @@ export default class Experience {
     this.camera.update()
     this.world.update()
     this.renderer.update()
+  }
+
+  destroy() {
+    /**
+     * https://threejs.org/docs/index.html?q=dispose#manual/en/introduction/How-to-dispose-of-objects
+     * What to dispose:
+     * 1. Event listener
+     * 2. Geometry & material
+     * 3. Orbit controls
+     * 4. WebGLRenderer
+     */
+    this.sizes.off('resize')
+    this.time.off('tick')
+    this.resources.off('ready')
+
+    this.scene.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        child.geometry.dispose()
+
+        for (const key in child.material) {
+          const value = child.material[key]
+
+          if (typeof value === 'function' && value) {
+            value.dispose()
+          }
+        }
+      }
+    })
+
+    this.camera.controls.dispose()
+
+    this.renderer.instance.dispose()
+
+    if (this.debug.active) {
+      this.debug.ui.destroy()
+    }
   }
 }
