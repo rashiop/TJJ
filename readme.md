@@ -28,6 +28,7 @@ Threejs Journey - Code along
 2. [imported model](https://github.com/rashiop/TJJ/tree/20_imported_model)
 3. ? 
 4. [realistic render](https://github.com/rashiop/TJJ/blob/22_realistic_render) - play with output encoding, shadow, tonemapping, antialiasing, remove shadow acne
+5. [code structure for complex codebase](https://github.com/rashiop/TJJ/tree/23_code_structuring) - if bigger, separate the debug classes
 ### Shaders
 ### Extra
 ### Portal
