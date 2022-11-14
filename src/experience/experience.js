@@ -5,6 +5,8 @@ import Time from './utils/Time'
 
 import Camera from './Camera'
 import Renderer from './Renderer'
+
+import Fox from './world/Fox'
 import World from './world/World'
 import Resources from './utils/Resources'
 
@@ -34,13 +36,14 @@ export default class Experience {
     this.camera = new Camera()
     this.renderer = new Renderer()
     this.world = new World()
+    this.fox = new Fox()
 
     // Resize event
     this.sizes.on('resize', () => {
       this.resize()
     })
     // Time tick event
-    this.time.on('tick', () => {
+    this.time.on('tick', (args) => {
       this.update()
     })
   }
