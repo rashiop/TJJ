@@ -6,10 +6,10 @@ export default class Environment {
   constructor() {
     this.experience = new Experience()
     this.scene = this.experience.scene
+    this.resources = this.experience.resources
 
     this.setSunLight()
 
-    this.resources = this.experience.resources
     this.setEnvironmentMap()
   }
 
