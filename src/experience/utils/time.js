@@ -1,4 +1,4 @@
-import EventEmitter from './event-emitter'
+import EventEmitter from './EventEmitter'
 
 export default class Time extends EventEmitter {
   constructor() {
